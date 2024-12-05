@@ -8,7 +8,7 @@
           </div>
           <div>
             <a class="navbar-brand brand-logo" href="index.html">
-              <img src="admin/assets/images/logo.svg" alt="logo" />
+              <img src="admin/assets/images/DLSAU.png" alt="logo" />
             </a>
             <a class="navbar-brand brand-logo-mini" href="index.html">
               <img src="admin/assets/images/logo-mini.svg" alt="logo" />

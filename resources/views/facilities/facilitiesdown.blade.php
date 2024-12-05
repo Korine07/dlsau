@@ -34,7 +34,7 @@
                     <li>Details: <span>{{ $venue->venue_details }}</span></li>
                 </ul>
                 <div class="main-button">
-                    <a href="#">Schedule a visit</a>
+                    <a href="{{url('booking')}}">Schedule a visit</a>
                     <a href="#">Full Info</a>
                 </div>
             </div>

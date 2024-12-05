@@ -18,6 +18,8 @@ use App\Http\Controllers\PendingController;
 use App\Http\Controllers\ConfirmController;
 use App\Http\Controllers\CompletedController;
 use App\Http\Controllers\CancelController;
+use App\Http\Controllers\CalendarController;
+
 
 
 
@@ -68,6 +70,7 @@ Route::resource("/completed", CompletedController::class);
 Route::resource("/cancel", CancelController::class);
 Route::resource('/create', VenuesController::class);
 Route::resource('/venue_list', VenuesController::class);
+Route::resource('/calendar', CalendarController::class);
 
 
 });
