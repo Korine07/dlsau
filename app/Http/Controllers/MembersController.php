@@ -11,10 +11,10 @@ use Illuminate\View\View;
 class MembersController extends Controller
 {
 
-    public function index(): View
+    public function index(Request $request): View
     {
         $members = Members::all();
-        return view ('members.members')->with('members', $members);
+        return view('members.members', compact('members'));
     }
 
  
@@ -54,7 +54,7 @@ class MembersController extends Controller
     Members::create($request->all());
 
     // Redirect with success message
-    return redirect('members')->with('flash_message', 'Member Added!');
+    return redirect('members')->with('success', 'Member Added!');
 }
 
     public function show(string $id): View
@@ -74,13 +74,13 @@ class MembersController extends Controller
         $members = Members::find($id);
         $input = $request->all();
         $members->update($input);
-        return redirect('members')->with('flash_message', 'Member Updated!');  
+        return redirect('members')->with('success', 'Member Updated!');  
     }
 
     
     public function destroy(string $id): RedirectResponse
     {
         Members::destroy($id);
-        return redirect('members')->with('flash_message', 'Member deleted!'); 
+        return redirect('members')->with('success', 'Member deleted!'); 
     }
 }

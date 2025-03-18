@@ -13,10 +13,12 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        // Fetch all categories from the database
         $categories = Categories::all();
-        return view ('categories.categories')->with('categories', $categories);
+
+        return view('categories.categories', compact('categories'));
     }
 
     /**
@@ -34,14 +36,14 @@ class CategoriesController extends Controller
     {
        // Validate the input
     $request->validate([
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|max:32',
     ]);
 
     // Save the category to the database
     Categories::create($request->all());
 
     // Redirect to the categories list with a success message
-    return redirect('categories')->with('flash_message', 'Category added successfully!');
+    return redirect('categories')->with('success', 'Category added successfully!');
     }
 
     /**
@@ -70,7 +72,7 @@ class CategoriesController extends Controller
         $categories = Categories::find($id);
         $input = $request->all();
         $categories->update($input);
-        return redirect('categories')->with('flash_message', 'Category Updated!');  
+        return redirect('categories')->with('success', 'Category Updated!');  
     }
 
     /**
@@ -79,6 +81,6 @@ class CategoriesController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         Categories::destroy($id);
-        return redirect('categories')->with('flash_message', 'Category deleted!'); 
+        return redirect('categories')->with('success', 'Category deleted!'); 
     }
 }

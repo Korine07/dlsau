@@ -32,3 +32,7 @@
         </div>
     </div>
   </header>
+
+<script>
+  window.FontAwesomeConfig = { autoReplaceSvg: false };
+</script>

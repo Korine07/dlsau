@@ -12,4 +12,10 @@ class Pending extends Model
     protected $fillable = ['name', 'address', 'mobile'];
 
     use HasFactory;
+    
+    public function venue()
+{
+    return $this->belongsTo(Venue::class, 'venue_id');
+}
+
 }

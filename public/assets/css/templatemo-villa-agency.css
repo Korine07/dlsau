@@ -132,11 +132,11 @@ body {
 }
 
 .section {
-  margin-top: 120px;
+  margin-top: 0px;
 }
 
 .section-heading {
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 }
 
 .section-heading h2 {
@@ -153,7 +153,7 @@ body {
 }
 
 .section-heading h6 {
-  color: #ee626b;
+  color: #028A0F;
   font-size: 15px;
   text-transform: uppercase;
   font-weight: 700;
@@ -206,8 +206,8 @@ body {
 }
 
 .main-button a:hover {
-  background-color: #f35525;
-  color: #fff;
+  background-color: #228B22;
+  color: #ffffff;
 }
 
 /* 
@@ -283,7 +283,7 @@ Pre-loader Style
   height: 16px;
   top: 12px;
   left: 15px;
-  background: #f35525;
+  background: #3ce767;
   border-radius: 50%;
   -webkit-transform: translateX(0);
   transform: translateX(0);
@@ -306,7 +306,7 @@ Pre-loader Style
   width: 16px;
   height: 16px;
   margin-left: 16px;
-  background: #f35525;
+  background: #066425;
   border-radius: 50%;
 }
 
@@ -319,7 +319,7 @@ Header Style
 */
 
 .sub-header {
-  background-color: #324d2e;
+  background-color: #002D0B;
   padding: 10px 0px;
   border-bottom: 1px solid #eee;
 }
@@ -389,7 +389,7 @@ Header Style
 
 .header-area {
   position: relative;
-  background-color: #2c422b;
+  background-color: #001E09;
   height: 80px;
   z-index: 100;
   -webkit-transition: all .5s ease 0s;
@@ -776,7 +776,7 @@ Banner Style
 
 .main-banner .item span.category em {
   font-style: normal;
-  color: #f35525;
+  color: #028A0F;
 }
 
 .main-banner .item h2 {
@@ -805,7 +805,7 @@ Banner Style
 }
 
 .main-banner .owl-dots .active {
-  background-color: #f35525;
+  background-color: #028A0F;
 }
 
 .main-banner .owl-nav {
@@ -823,7 +823,7 @@ Banner Style
   font-size: 24px;
   display: inline-block;
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #aaaaaa85;
   border-radius: 50%;
   opacity: 1;
   transition: all .3s;
@@ -1084,7 +1084,7 @@ Best Deal Style
   font-size: 20px;
   color: #1e1e1e;
   font-weight: 700;
-  float: right;
+  
   display: inline-block;
 }
 
@@ -1122,11 +1122,11 @@ Properties Style
 }
 
 .properties .item span.category {
-  background-color: #fbd9cf;
+  background-color: #228B22;
   font-weight: 500;
   border-radius: 5px;
   font-size: 14px;
-  color: #1e1e1e;
+  color: #ffffff;
   padding: 5px 12px;
   display: inline-block;
   margin-top: 25px;
@@ -1143,13 +1143,13 @@ Properties Style
 
 .properties .item ul li {
   display: inline-block;
-  font-size: 15px;
+  font-size: 14px;
   color: #4a4a4a;
   margin-right: 20px;
 }
 
 .properties .item ul li span {
-  font-weight: 600;
+  font-weight: normal;
   color: #1e1e1e;
 }
 
@@ -1163,7 +1163,7 @@ Properties Style
   font-size: 20px;
   color: #f35525;
   margin-top: 6px;
-  display: inline-block;
+ /*  display: inline-block;*/
   float: right;
   margin-top: 30px;
 }
@@ -1180,11 +1180,11 @@ Contact Style
 */
 
 .contact {
-  background-image: url(../images/contact-bg.jpg);
+  background-image: url('/assets/images/contact-bg.JPG');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  padding: 100px 0px 250px 0px;
+  padding: 100px 0px 150px 0px;
   position: relative;
 }
 
@@ -1198,98 +1198,6 @@ Contact Style
   z-index: 1;
 }
 
-.contact-content #map {
-  border-radius: 10px;
-  margin-bottom: 60px;
-}
-
-.contact-content .item {
-  border-radius: 10px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
-  padding: 35px 30px;
-  background-color: #fff;
-}
-
-.contact-content .phone {
-  margin-right: 15px;
-}
-
-.contact-content .email {
-  margin-left: 15px;
-}
-
-.contact-content .item img {
-  float: left;
-  margin-right: 25px;
-  vertical-align: middle;
-}
-
-.contact-content .item h6 {
-  font-size: 20px;
-  font-weight: 600;
-  vertical-align: middle;
-}
-
-.contact-content .item h6 span {
-  font-size: 15px;
-  color: #aaaaaa;
-  font-weight: 400;
-}
-
-.contact-content #contact-form {
-  margin-left: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
-  padding: 35px 30px;
-  background-color: #fff;
-}
-
-.contact-content #contact-form label {
-  font-size: 15px;
-  color: #3a3a3a;
-  margin-bottom: 15px;
-}
-
-.contact-content #contact-form input {
-  width: 100%;
-  height: 44px;
-  border-radius: 22px;
-  background-color: #f6f6f6;
-  border: none;
-  margin-bottom: 30px;
-  font-size: 14px;
-  padding: 0px 15px;
-}
-
-.contact-content #contact-form textarea {
-  width: 100%;
-  height: 150px;
-  max-height: 180px;
-  border-radius: 22px;
-  background-color: #f6f6f6;
-  border: none;
-  margin-bottom: 40px;
-  font-size: 14px;
-  padding: 15px 15px;
-}
-
-.contact-content #contact-form button {
-  background-color: #1e1e1e;
-  height: 44px;
-  border-radius: 22px;
-  padding: 0px 20px;
-  color: #fff;
-  border: none;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all .5s;
-}
-
-.contact-content #contact-form button:hover {
-  background-color: #f35525;
-}
-
-
 /* 
 ---------------------------------------------
 Footer Style
@@ -1301,7 +1209,7 @@ footer.footer-no-gap {
 }
 
 footer {
-  margin-top: 150px;
+  margin-top: 0px;
   background-color: #1e1e1e;
   min-height: 100px;
 }
@@ -1333,12 +1241,13 @@ Page Header Style
 */
 
 .page-heading {
-  background-image: url(../images/page-heading-bg.jpg);
+  background-image: url(/assets/images/page-heading-bg.JPG);
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: cover;
   padding: 110px 0px;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .page-heading span {
@@ -1374,6 +1283,7 @@ Properties Style
   list-style: none;
   text-align: center;
   margin-bottom: 70px;
+  margin-top: 70px;
 }
 
 .properties ul.properties-filter li {
@@ -1395,7 +1305,7 @@ Properties Style
 }
 
 .properties ul.properties-filter li a.is_active {
-  background-color: #f35525;
+  background-color: #228B22;
   color: #fff;
 }
 
@@ -1404,19 +1314,23 @@ Properties Style
 }
 
 .properties ul.properties-filter li a:hover {
-  color: #f35525;
+  color: #228B22;
 }
 
 .properties ul.pagination {
   margin-top: 50px;
+  margin-bottom: 50px;
   text-align: center;
   width: 100%;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Ensure vertical alignment */
+  gap: 8px; /* Consistent spacing */
+  padding: 0;
 }
 
 .properties ul.pagination li {
-  display: inline-block;
-  margin: 0px 5px;
+  list-style: none;
 }
 
 .properties ul.pagination li a {
@@ -1435,9 +1349,115 @@ Properties Style
 
 .properties ul.pagination li a:hover,
 .properties ul.pagination li a.is_active {
-  background-color: #f35525;
+  background-color: #228B22;
   color: #fff;
 }
+.properties ul.pagination li a,
+.properties ul.pagination li span {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e1e;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    border: 2px solid transparent;
+}
+.properties ul.pagination li a:hover,
+.properties ul.pagination li.active span { /* Active page styling */
+  background-color: #228B22;
+  color: #fff;
+}
+
+.properties ul.pagination li.disabled span { /* Disabled navigation styling */
+  background-color: #444;
+  color: #aaa;
+  cursor: not-allowed;
+}
+.properties ul.pagination li a:focus {
+  outline: none;
+  box-shadow: none;
+}
+.properties ul.pagination li.prev a,
+.properties ul.pagination li.next a {
+  border-radius: 50%; /* Make them the same as page numbers */
+  width: 40px; /* Ensure equal width */
+  height: 40px; /* Ensure equal height */
+  font-size: 16px; /* Ensure icons are properly sized */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.properties ul.pagination li.prev a:hover,
+.properties ul.pagination li.next a:hover {
+  background-color: #228B22;
+  color: white;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; 
+    padding: 0;
+    list-style: none;
+}
+.pagination .page-item {
+    list-style: none;
+}
+.pagination .page-item a,
+.pagination .page-item span {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e1e;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    border: 2px solid transparent;
+}
+.pagination .page-item a:hover,
+.pagination .page-item.active span {
+    background-color: #228B22;
+    color: #fff;
+}
+.pagination .page-item.disabled span {
+    background-color: #444;
+    color: #aaa;
+    cursor: not-allowed;
+    border-radius: 50%; /* Make same as page numbers */
+    width: 40px;
+    height: 40px;
+}
+.pagination .page-item.prev a,
+.pagination .page-item.next a {
+    border-radius: 50%; /* Make same as page numbers */
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination .page-item.prev a:hover,
+.pagination .page-item.next a:hover {
+    background-color: #228B22;
+    color: white;
+}
+.pagination .page-item a:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 
 
 /* 
@@ -1518,8 +1538,8 @@ Single Page Style
 
 .single-property .info-table ul li {
   display: block;
-  margin-bottom: 35px;
-  padding-bottom: 35px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
@@ -1530,8 +1550,8 @@ Single Page Style
 }
 
 .single-property .info-table ul li img {
-  float: left;
-  margin-right: 25px;
+    max-width: 52px; /* Ensures uniform icon size */
+    height: auto; /* Keeps aspect ratio */
 }
 
 .single-property .info-table ul li h4 {
@@ -1552,9 +1572,7 @@ Contact Page Style
 --------------------------------------------- 
 */
 
-.contact-page #map {
-  margin-top: 100px;
-}
+
 
 .contact-page .section-heading {
   margin-bottom: 40px;

@@ -1,10 +1,4 @@
 
-          <!-- partial -->
-        </div>
-        <!-- main-panel ends -->
-      </div>
-      <!-- page-body-wrapper ends -->
-    </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="admin/assets/vendors/js/vendor.bundle.base.js"></script>
@@ -26,3 +20,26 @@
     <script src="admin/assets/js/dashboard.js"></script>
     <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
     <!-- End custom js for this page-->
+
+  <style>
+    .footer {
+    position: fixed;
+    bottom: 0;
+    left: 220px; /* Match sidebar width */
+    width: calc(100% - 220px); /* Adjust width */
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #6c757d;
+    border-top: 1px solid #dee2e6;
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+/* Adjust footer when sidebar is collapsed */
+.sidebar.collapsed ~ .footer {
+    left: 60px;
+    width: calc(100% - 60px);
+}
+
+  </style>

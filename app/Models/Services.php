@@ -11,5 +11,12 @@ class Services extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'price'];
 
-    use HasFactory;
+    public function reservations()
+    {
+        return $this->belongsToMany(Reservation::class, 'reservation_services', 'service_id', 'reservation_id')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
+
+
 }

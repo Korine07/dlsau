@@ -21,10 +21,10 @@
                         <span>Menu</span>
                         </a>
                     <!-- ***** Menu End ***** -->
-                </nav>
-            </div>
-        </div>
-    </div>
+                  </nav>
+              </div>
+          </div>
+      </div>
   </header>
   <!-- ***** Header Area End ***** -->
 

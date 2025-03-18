@@ -12,8 +12,7 @@ class CancelController extends Controller
 {
     public function index(): View
     {
-        $cancel = Cancel::all();
-        return view ('cancel.cancel')->with('cancel', $cancel);
+        return view('cancel.cancel', compact('cancelledReservations'));
     }
  
     public function create(): View

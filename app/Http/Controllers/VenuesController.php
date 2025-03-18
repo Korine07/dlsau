@@ -17,12 +17,11 @@ class VenuesController extends Controller
      */
     public function index()
     {    
-        // Pass the venues to the view
-        return view('venues.venues', compact('venues'));
+        $categories = Categories::all(); // Fetch all categories
+        $venues = Venue::with('categories')->get(); // Fetch venues with their categories
 
-        $categories = Categories::all();
-        $venues = Venue::with('categories')->get(); // Fetch venues along with their categories
-        return view('facilities.facilities', compact('categories', 'venues'));
+        // Pass both $categories and $venues to the view
+        return view('venues.venues', compact('categories', 'venues'));
      
     }
 
@@ -31,8 +30,10 @@ class VenuesController extends Controller
      */
     public function create()
     {
-        $categories = DB::table('categories')->get();
-        return view('venues.venues', compact('categories'));
+        $categories = Categories::all(); // Fetch all categories
+        $venues = Venue::with('categories')->get(); // Fetch venues with their categories
+
+        return view('venues.venues', compact('categories', 'venues'));
     }
 
     /**
@@ -41,24 +42,54 @@ class VenuesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'venue_name' => 'required|string|max:255',
-            'venue_description' => 'nullable|string',
-            'venue_details' => 'nullable|string',
-            'venue_capacity' => 'required|integer|min:0',
+            'venue_name' => 'required|string|max:32',
+            'venue_description' => 'required|string|max:255', 
+            'venue_details' => 'required|string|max:255', 
+            'venue_capacity' => 'required|integer|min:1',
             'venue_category' => 'required|integer',
             'guest_price' => 'required|numeric|min:0',
             'member_price' => 'required|numeric|min:0',
-            'venue_notes' => 'nullable|string',
-            'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'slider_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'venue_notes' => 'required|string|max:255',
+            'cover_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'slider_images' => 'required|array|min:1',
+            'slider_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ], [
+            'venue_name.required' => 'Venue name is required.',
+            'venue_name.max' => 'Venue name must be at most 32 characters.',
+            'venue_description.required' => 'Venue description is required.',
+            'venue_description.max' => 'Venue description must be at most 255 characters.',
+            'venue_details.required' => 'Venue details are required.',
+            'venue_details.max' => 'Venue details must be at most 255 characters.',
+            'venue_capacity.required' => 'Venue capacity is required.',
+            'venue_capacity.integer' => 'Venue capacity must be a number.',
+            'venue_capacity.min' => 'Venue capacity must be at least 1.',
+            'venue_category.required' => 'Venue category is required.',
+            'venue_category.integer' => 'Invalid category selected.',
+            'guest_price.required' => 'Guest price is required.',
+            'guest_price.numeric' => 'Guest price must be a number.',
+            'guest_price.min' => 'Guest price must be at least 0.',
+            'member_price.required' => 'Member price is required.',
+            'member_price.numeric' => 'Member price must be a number.',
+            'member_price.min' => 'Member price must be at least 0.',
+            'venue_notes.required' => 'Venue notes are required.',
+            'venue_notes.max' => 'Venue notes must be at most 255 characters.',
+            'cover_photo.required' => 'Cover photo is required.',
+            'cover_photo.image' => 'Cover photo must be an image (jpeg, png, jpg, gif).',
+            'cover_photo.mimes' => 'Cover photo must be a jpeg, png, jpg, or gif.',
+            'cover_photo.max' => 'Cover photo size must be 5MB or less.',
+            'slider_images.required' => 'Slider images are required.',
+            'slider_images.*.image' => 'Each slider image must be an image (jpeg, png, jpg, gif).',
+            'slider_images.*.mimes' => 'Slider images must be of type jpeg, png, jpg, or gif.',
+            'slider_images.*.max' => 'Each slider image must be 5MB or less.',
         ]);
     
+    
         // Handle cover photo upload
-$coverPhoto = null;
-if ($request->hasFile('cover_photo')) {
-    // Store the uploaded cover photo in 'public' disk
-    $coverPhoto = $request->file('cover_photo')->store('venues/cover_photos', 'public');
-}
+        $coverPhoto = null;
+        if ($request->hasFile('cover_photo')) {
+            // Store the uploaded cover photo in 'public' disk
+            $coverPhoto = $request->file('cover_photo')->store('venues/cover_photos', 'public');
+        }
     
         // Handle slider images upload
         $sliderImages = [];
@@ -79,7 +110,7 @@ if ($request->hasFile('cover_photo')) {
             'member_price' => $request->input('member_price'),
             'venue_notes' => $request->input('venue_notes'),
             'cover_photo' => $coverPhoto,
-            'slider_images' => json_encode($sliderImages),
+            'slider_images' => json_encode($sliderImages), // Store as JSON array
         ]);
     
         // Redirect back to the homepage or the venues page
@@ -117,4 +148,5 @@ if ($request->hasFile('cover_photo')) {
     {
         
     }
+    
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Reservation;
+use App\Models\Venue;
 
 class Venue extends Model
 {
@@ -27,5 +29,10 @@ public function categories()
 {
     return $this->belongsTo(Categories::class, 'venue_category_id');
 }
+public function reservations()
+{
+    return $this->hasMany(Reservation::class, 'venue_id');
+}
+
 
 }

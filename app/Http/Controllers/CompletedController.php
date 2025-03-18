@@ -10,10 +10,28 @@ use Illuminate\View\View;
 
 class CompletedController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $completed = Completed::all();
-        return view ('completed.completed')->with('completed', $completed);
+        $search = $request->input('search');
+    $perPage = max((int)$request->input('per_page', 12), 12);
+
+    $query = Completed::query()->with('venue'); // Load related venue data
+
+    if (!empty($search)) {
+        $query->where(function($q) use ($search) {
+            $q->where('first_name', 'LIKE', "%{$search}%")
+              ->orWhere('last_name', 'LIKE', "%{$search}%")
+              ->orWhere('email', 'LIKE', "%{$search}%")
+              ->orWhereHas('venue', function($q) use ($search) {
+                  $q->where('venue_name', 'LIKE', "%{$search}%");
+              })
+              ->orWhere('status', 'LIKE', "%{$search}%");
+        });
+    }
+
+    $completedReservations = $query->paginate($perPage)->appends(['search' => $search, 'per_page' => $perPage]);
+
+    return view('completed.completed', compact('completedReservations'));
     }
  
     public function create(): View

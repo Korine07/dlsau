@@ -9,7 +9,7 @@
         </div>
         <div class="col-lg-4 col-md-4">
           <ul class="social-links">
-            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://www.facebook.com/DLSAranetaU/" target="_blank"><i class="fab fa-facebook"></i></a></li>
             
           </ul>
         </div>

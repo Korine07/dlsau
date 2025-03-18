@@ -8485,7 +8485,7 @@
   --bs-focus-ring-width: 0.25rem;
   --bs-focus-ring-opacity: 0.25;
   --bs-focus-ring-color: rgba(13, 110, 253, 0.25);
-  --bs-form-valid-color: #198754;
+  --bs-form-valid-color: #ff0b0b;
   --bs-form-valid-border-color: #198754;
   --bs-form-invalid-color: #dc3545;
   --bs-form-invalid-border-color: #dc3545;
@@ -10443,6 +10443,7 @@ progress {
 }
 .form-label {
   margin-bottom: 0.5rem;
+  
 }
 
 .col-form-label {
@@ -11491,10 +11492,10 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
 .btn-info {
   --bs-btn-color: #000;
   --bs-btn-bg: #51B1E1;
-  --bs-btn-border-color: #51B1E1;
+  --bs-btn-border-color: #000000;
   --bs-btn-hover-color: #000;
   --bs-btn-hover-bg: #6bbde6;
-  --bs-btn-hover-border-color: #62b9e4;
+  --bs-btn-hover-border-color: #000000;
   --bs-btn-focus-shadow-rgb: 69, 150, 191;
   --bs-btn-active-color: #000;
   --bs-btn-active-bg: #74c1e7;
@@ -15786,6 +15787,7 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
 .d-flex, .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right .nav-item, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile, .navbar .navbar-menu-wrapper .navbar-nav, .list-wrapper ul li, .data-icon-card-purple .background-icon, .data-icon-card-dark .background-icon, .data-icon-card-light .background-icon, .data-icon-card-danger .background-icon, .data-icon-card-warning .background-icon, .data-icon-card-info .background-icon, .data-icon-card-success .background-icon, .data-icon-card-secondary .background-icon, .data-icon-card-primary .background-icon, .loader-demo-box {
   display: flex !important;
 }
+
 
 .d-inline-flex {
   display: inline-flex !important;
@@ -25897,7 +25899,7 @@ svg {
 }
 
 /* Dropdowns */
-.dropdown .dropdown-toggle:after {
+/*.dropdown .dropdown-toggle:after {
   border-top: 0;
   border-right: 0;
   border-left: 0;
@@ -25911,7 +25913,7 @@ svg {
   font-size: 0.5rem;
   margin-left: 0.3rem;
   font-weight: bold;
-}
+}*/
 .dropdown .dropdown-menu {
   margin-top: 2px;
   font-size: 0.812rem;
@@ -27317,6 +27319,90 @@ dl li {
   margin-top: 0.875rem;
 }
 
+/* categories table */
+.table-column-name {
+  width: 70%; /* Make Name column 70% */
+}
+
+.table-column-action {
+  width: 20%; /* Make Action column 30% */
+  white-space: nowrap; /* Prevent buttons from wrapping */
+}
+
+.calendar-container {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%; /* Use full height of the container */
+  min-height: 500px; /* Minimum height for consistency */
+}
+
+#calendar {
+  max-width: 100%; /* Make it responsive */
+  height: 525px; /* Set a consistent height */
+  margin: 0 auto; /* Center the calendar */
+  border: 1px solid #ddd; /* Optional: Add a light border */
+  padding: 10px; /* Optional: Add padding */
+  background-color: #fff; /* Optional: Background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.table-responsive {
+  max-height: 500px; /* Prevent table overflow */
+  overflow-y: auto; /* Enable vertical scrolling if necessary */
+  border: 1px solid #ddd; /* Add a light border */
+  background-color: #fff; /* Optional: Background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 10px; /* Add padding inside the container */
+}
+
+    .custom-table-container {
+        max-height: 650px; /* Set maximum height for the table */
+        max-width: 100%;  /* Ensure the table doesn't exceed the container width */
+        overflow-y: auto; /* Enable vertical scrolling if necessary */
+        border: 1px solid #ddd; /* Add a light border */
+        background-color: #fff; /* Optional: Background color */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 10px; /* Add padding inside the container */
+    }
+
+    table {
+        width: 100%;      /* Ensure the table takes full width of the container */
+    }
+
+    th, td {
+        text-align: center; /* Align text to the center */
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: white; /* Match the table's background */
+  }
+
+  .form-select-custom {
+    appearance: none; /* Hide default arrow */
+    padding-right: 30px; /* Space for the custom icon */
+}
+.text-gray {
+  color: gray; /* Change this to a specific hex or RGB value if needed */
+}
+
+.dropdown-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Allow interaction only with the select */
+    font-size: 12px; /* Adjust icon size */
+    color: #6c757d; /* Match Bootstrap's default text color */
+}
+
 /* Pills color variations */
 .nav-pills-primary .nav-link {
   color: #1F3BB3;
@@ -28442,6 +28528,7 @@ dl li {
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
+  
 }
 @media (max-width: 991px) {
   .main-panel {
@@ -28467,11 +28554,11 @@ dl li {
 
 .sidebar {
   min-height: calc(100vh - 97px);
-  background: #FFFFFF;
+  background: #ffffff;
   font-family: "Manrope", sans-serif;
   font-weight: 500;
   padding: 0;
-  width: 220px;
+  width: 195px;
   z-index: 11;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
@@ -28589,7 +28676,7 @@ dl li {
 .sidebar .nav .nav-item.active > .nav-link i,
 .sidebar .nav .nav-item.active > .nav-link .menu-title,
 .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
-  color: #1F3BB3;
+  color: #087830;
 }
 .purple .sidebar .nav .nav-item.active > .nav-link i,
 .purple .sidebar .nav .nav-item.active > .nav-link .menu-title,
@@ -28614,7 +28701,7 @@ dl li {
 .sidebar .nav .nav-item:hover > .nav-link i,
 .sidebar .nav .nav-item:hover > .nav-link .menu-title,
 .sidebar .nav .nav-item:hover > .nav-link .menu-arrow {
-  color: #1F3BB3;
+  color: #087830;
 }
 .sidebar .nav .nav-item.nav-category {
   color: #404040;
@@ -28647,7 +28734,7 @@ dl li {
 .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link[aria-expanded=true] {
   border-radius: 8px 8px 0 0;
   background: #fff;
-  color: #1F3BB3;
+  color: #087830;
   border-radius: 0px 20px 0px 0px;
 }
 .sidebar .nav:not(.sub-menu) > .nav-item.active {
@@ -28697,7 +28784,7 @@ dl li {
   color: #000;
 }
 .sidebar .nav.sub-menu .nav-item .nav-link.active {
-  color: #1F3BB3;
+  color: #087830;
   background: transparent;
 }
 .purple .sidebar .nav.sub-menu .nav-item .nav-link.active {
@@ -28818,14 +28905,12 @@ dl li {
   box-shadow: none;
 }
 .navbar .navbar-brand-wrapper {
-  background: #FFFFFF;
-  transition: width 0.25s ease, background 0.25s ease;
-  -webkit-transition: width 0.25s ease, background 0.25s ease;
-  -moz-transition: width 0.25s ease, background 0.25s ease;
-  -ms-transition: width 0.25s ease, background 0.25s ease;
+  background: #ffffff;
+  
   width: 220px;
   height: 97px;
   padding: 20px 35px;
+  
 }
 
 .sidebar-dark .navbar .navbar-brand-wrapper {
@@ -28856,7 +28941,7 @@ dl li {
 }
 .navbar .navbar-brand-wrapper .navbar-brand img {
   max-width: 100%;
-  height: 34px;
+  height: 60px;
   margin: auto;
   vertical-align: middle;
 }
@@ -28908,9 +28993,9 @@ dl li {
 .rtl .navbar .navbar-brand-wrapper .me-3, .rtl .navbar .navbar-brand-wrapper .template-demo > .btn-toolbar {
   margin-right: 0 !important;
   margin-left: 1rem !important;
-}
+} 
 .navbar .navbar-menu-wrapper {
-  background: #F4F5F7;
+  background: #f4f5f7;
   transition: width 0.25s ease;
   -webkit-transition: width 0.25s ease;
   -moz-transition: width 0.25s ease;
@@ -29978,6 +30063,8 @@ dl li {
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
+    position: fixed;
+    top: 0;
   }
   .navbar .navbar-brand-wrapper {
     width: 55px;
@@ -30117,7 +30204,7 @@ dl li {
     position: relative;
   }
   .sidebar-icon-only .sidebar .nav .nav-item .nav-link {
-    display: block;
+    /*display: block;*/
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     text-align: center;
@@ -30381,5 +30468,101 @@ dl li {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+/* fullcalendar */
+/* Holiday Container (Left) */
+#holiday-container {
+  flex: 1; /* Make it flexible */
+  max-width: 450px; /* Adjust width if needed */
+  padding: 15px;
+  
+}
+
+/* Calendar (Right) */
+#calendar-container {
+  flex: 2; /* Make it larger than holiday container */
+  display: flex;
+  justify-content: center; /* Centers calendar */
+}
+
+#calendar {
+  width: 100%;
+  max-width: 750px; /* Adjust width */
+  height: 700px !important; /* Controls height */
+}
+
+/* Ensure the row is a flex container */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Adds spacing */
+}
+.fc-theme-standard .fc-scrollgrid {
+  color: #000; /* Change to black or any desired color */
+}
+
+.fc-daygrid-day-number {
+  color: #000000 !important; /* Change day number color */
+  
+}
+.fc-toolbar-title {
+  color: #000000 !important; /* Change title text color */
+}
+
+.fc-col-header-cell-cushion {
+  color: #000000 !important; /* Change this to your preferred color */
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none !important;
+}
+.fc .fc-daygrid-day-number {
+  text-decoration: none !important;
+}
+.fc .fc-day-today .fc-daygrid-day-number {
+  background-color: #ff2c2c; /* Change this color to your preference */
+  color: white !important; /* White number inside */
+  border-radius: 50%; /* Makes it circular */
+  padding: 5px; /* Adjust padding for circle size */
+  display: inline-block; /* Ensures proper centering */
+  width: 30px; /* Set specific width */
+  height: 30px; /* Set specific height */
+  display: flex; /* Ensures proper alignment */
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
+}
+/* Add gray encircle effect when hovering over a day */
+.fc-daygrid-day:hover .fc-daygrid-day-number {
+  background-color: gray; /* Gray background on hover */
+  color: white !important; /* Text color */
+  border-radius: 50%; /* Make it a circle */
+  padding: 5px; /* Adjust padding */
+  font-size: 16px; /* Adjust font size */
+  width: 30px; /* Circle width */
+  height: 30px; /* Circle height */
+  display: flex; /* Ensures proper alignment */
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
+  transition: all 0.2s ease-in-out; /* Smooth transition */
+}
+.fc-timegrid-event {
+  min-height: 30px; /* Ensure that each event has a minimum height */
+  max-height: 80px; /* Limit the maximum height of events */
+  overflow: hidden; /* Prevent text overflow */
+  text-overflow: ellipsis; /* Add ellipsis if the text overflows */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+.fc-timegrid-day > .fc-timegrid-event-harness {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align events to the top of the cell */
+  align-items: stretch;
+}
+.fc-timegrid-event .fc-event-title {
+  font-size: 12px; /* Ensure the font is small enough to fit inside the event */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent title from wrapping to the next line */
+}
+
+
 /*# sourceMappingURL=maps/style.css.map */
 

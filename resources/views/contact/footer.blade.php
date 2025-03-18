@@ -15,3 +15,10 @@
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/counter.js"></script>
   <script src="assets/js/custom.js"></script>
+<style>
+  footer {
+  margin-top: 50px;
+  background-color: #1e1e1e;
+  min-height: 100px;
+}
+</style>

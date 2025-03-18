@@ -10,10 +10,9 @@ use Illuminate\View\View;
 
 class ConfirmController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $confirm = Confirm::all();
-        return view ('confirm.confirm')->with('confirm', $confirm);
+    return view('confirm.confirm', compact('confirmedReservations'));
     }
  
     public function create(): View
@@ -40,9 +39,35 @@ class ConfirmController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $confirm = Confirm::find($id);
-        $input = $request->all();
-        $confirm->update($input);
-        return redirect('confirm')->with('flash_message', 'confirm Updated!');  
+
+    // Validate input
+    $request->validate([
+        'first_name' => 'required|string|regex:/^[a-zA-Z\s0-9\-\_\.]+$/',  
+        'last_name' => 'required|string|regex:/^[a-zA-Z\s0-9\-\_\.]+$/',  
+        'email' => 'required|email',  
+        'phone' => 'required|regex:/^(09|\+639)\d{9}$/', 
+        'check_in_date' => 'required|date',
+        'check_out_date' => 'required|date|after_or_equal:check_in_date',
+        'check_in_time' => 'required',
+        'check_out_time' => 'required',
+    ]);
+
+    // Update reservation with new values
+    $confirm->update([
+        'first_name' => $request->input('first_name'),
+        'last_name' => $request->input('last_name'),
+        'email' => $request->input('email'),
+        'phone' => $request->input('phone'),
+        'expected_guests' => $request->input('expected_guests'),
+        'status' => $request->input('status'),
+        'venue_id' => $request->input('venue_id'),
+        'check_in_date' => $request->input('check_in_date'),
+        'check_in_time' => $request->input('check_in_time'),
+        'check_out_date' => $request->input('check_out_date'),
+        'check_out_time' => $request->input('check_out_time'),
+    ]);
+
+    return redirect('confirm')->with('success', 'Reservation updated successfully!');
     }
     
     public function destroy(string $id): RedirectResponse

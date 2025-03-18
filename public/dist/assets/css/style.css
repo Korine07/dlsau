@@ -28466,7 +28466,8 @@ dl li {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 97px);
-  background: #F4F5F7;
+  background: #FFFFFF;
+  
   font-family: "Manrope", sans-serif;
   font-weight: 500;
   padding: 0;

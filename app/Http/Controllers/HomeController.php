@@ -5,16 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
+use App\Models\Venue;
+use App\Models\Reservation; 
+use DB;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Fetch all categories
+        // Fetch categories
         $categories = Categories::all();
 
-        // Pass categories to the homepage view
-        return view('home.home', compact('categories'));
+        // Fetch the top 3 most booked venues
+        $venues = Venue::withCount('reservations') // Count reservations per venue
+        ->orderBy('reservations_count', 'desc') // Order by highest reservation count
+        ->take(3) // Get top 3 venues
+        ->get();
+
+        // Pass the variables to the home view
+        return view('home.home', compact('categories', 'venues'));
     }
 
     public function redirects()

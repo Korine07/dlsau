@@ -11,10 +11,11 @@ use Illuminate\View\View;
 class ServicesController extends Controller
 {
 
-    public function index(): View
+    public function index(Request $request): View
     {
         $services = Services::all();
-        return view ('services.services')->with('services', $services);
+
+        return view('services.services', compact('services'));
     }
 
  
@@ -24,25 +25,28 @@ class ServicesController extends Controller
     }
 
   
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        // Validate the input fields
+        
     $request->validate([
-        'name' => 'required|string|max:255',
-        'price' => 'required|numeric|min:0', // Price should be a valid number
+        'name' => 'required|string|max:32',
+        'price' => 'required|numeric|min:0', 
     ]);
 
-    // Format the price to two decimal places and store it as a float
-    $price = number_format($request->price, 2, '.', ''); // Format to 2 decimal places
-    $price = (float) $price;  // Ensure it's stored as a float
+    // Check if price is 0.00 explicitly
+    if ($request->input('price') == '0.00') {
+        return back()->withErrors(['price' => 'Price cannot be 0.00. Please enter a valid price.']);
+    }
+
+    $price = number_format($request->price, 2, '.', ''); 
+    $price = (float) $price;  
     
-    // Store the new service
     Services::create([
         'name' => $request->name,
-        'price' => $price,  // Store formatted price
+        'price' => $price,  
     ]);
 
-    return redirect('services')->with('flash_message', 'Service Added!');
+    return redirect('services')->with('success', 'Service Added!');
     }
 
     public function show(string $id): View
@@ -74,13 +78,13 @@ class ServicesController extends Controller
         $services = Services::find($id);
         $input = $request->all();
         $services->update($input);
-        return redirect('services')->with('flash_message', 'Service Updated!');  
+        return redirect('services')->with('success', 'Service Updated!');  
     }
 
     
     public function destroy(string $id): RedirectResponse
     {
         Services::destroy($id);
-        return redirect('services')->with('flash_message', 'Service deleted!'); 
+        return redirect('services')->with('success', 'Service deleted!'); 
     }
 }
