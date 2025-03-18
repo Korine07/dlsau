@@ -29,6 +29,10 @@ use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use App\Http\Controllers\ServiceReportController;
 
+Route::get('/healthz', function () {
+    return response()->json(['status' => 'ok']);
+});
+
 
 // Public Routes
 //Route::get('/', function () {

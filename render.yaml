@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: laravel-app
+    runtime: docker
+    repo: https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO
+    branch: master
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: your-app-key
+    buildCommand: |
+      apt-get update && apt-get install -y unzip curl
+      curl -sS https://getcomposer.org/installer | php
+      mv composer.phar /usr/local/bin/composer
+      composer install --no-dev --optimize-autoloader
+      php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
