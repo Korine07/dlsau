@@ -96,7 +96,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="member_price" class="form-label">Member Price</label>
+                                <label for="member_price" class="form-label">Partner Price</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
                                     <input type="number" class="form-control @error('member_price') is-invalid @enderror" id="member_price" name="member_price" step="0.01" value="{{ old('member_price') }}" required>

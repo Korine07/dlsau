@@ -34,9 +34,9 @@
               </a>
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{ route('pending.reservations') }}">Pending reservation</a>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('confirmed.reservations') }}">Confirm Reservation</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('confirmed.reservations') }}">Confirmed Reservation</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('completed.reservations') }}">Completed Reservation</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('cancelled.reservations') }}">Cancel Reservation</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('cancelled.reservations') }}">Cancelled Reservation</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('archived.reservations') }}">Archived Reservation</a></li>
               </ul>
             </li>
@@ -78,7 +78,7 @@
               <ul class="nav flex-column sub-menu">
                 <!--<li class="nav-item"> <a class="nav-link" href="{{ route('reservation.list') }}">Reservation List</a></li>-->
                 <li class="nav-item"> <a class="nav-link" href="{{ route('venue.reservation.list') }}">Venue Reservation List</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('reservation.archived') }}">Archived List</a></li>
+                <!--<li class="nav-item"> <a class="nav-link" href="{{ route('reservation.archived') }}">Archived List</a></li>-->
                 <li class="nav-item"> <a class="nav-link" href="{{ route('services.list') }}">Service List</a></li>
               </ul>
             </li>

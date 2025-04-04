@@ -10,10 +10,15 @@ class Holiday extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['date', 'reason'];
+    protected $fillable = ['start_date', 'end_date', 'reason'];
 
-    public function getDateAttribute($value)
-{
-    return Carbon::parse($value)->timezone('Asia/Manila')->format('Y-m-d');
-}
+    public function getStartDateAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Manila')->format('Y-m-d');
+    }
+
+    public function getEndDateAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Manila')->format('Y-m-d');
+    }
 }

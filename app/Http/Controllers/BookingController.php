@@ -30,10 +30,22 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
+        $holidays = Holiday::select('start_date', 'end_date')->get();
+        $disabledDates = [];
+    
+        foreach ($holidays as $holiday) {
+            $startDate = Carbon::parse($holiday->start_date);
+            $endDate = Carbon::parse($holiday->end_date);
+    
+            while ($startDate->lte($endDate)) {
+                $disabledDates[] = $startDate->format('Y-m-d');
+                $startDate->addDay();
+            }
+        }
+
         $request->validate([
             'first_name' => 'required|string|regex:/^[A-Za-z\s]+$/|max:255',  
             'last_name' => 'required|string|regex:/^[A-Za-z\s]+$/|max:255',
-            'email' => 'required|email',
             'phone' => 'required|regex:/^\+?[0-9]{10,15}$/',
             'expected_guests' => 'required|integer|min:1',
             'check_in_date' => 'required|date|after_or_equal:today',
@@ -46,8 +58,12 @@ class BookingController extends Controller
             'quantities' => 'nullable|array',
             'quantities.*' => 'integer|min:1',
             'terms' => 'required|accepted',
-            'activity_nature' => 'required|string|max:32',
+            'activity_nature' => 'required|string|max:64',
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/'],
+        ], [
+            'email.regex' => 'Please enter a valid Gmail or Yahoo email address.',
         ]);
+        
     
         $venue = Venue::findOrFail($request->venue_id);
     
@@ -140,7 +156,7 @@ class BookingController extends Controller
         $reservations = Reservation::with('venue')
         ->where('status', '!=', 'archived') // Exclude archived reservations
         ->get();
-        $holidays = Holiday::select('date', 'reason')->get();
+        $holidays = Holiday::select('start_date', 'end_date', 'reason')->get();
 
         $events = [];
 
@@ -149,7 +165,8 @@ class BookingController extends Controller
             $events[] = [
                 'id' => "holiday-" . $holiday->id,
                 'title' => $holiday->reason,
-                'start' => $holiday->date,
+                'start' => $holiday->start_date,
+                'end' => Carbon::parse($holiday->end_date)->addDay()->toDateString(),
                 'color' => '#28a745', 
                 'allDay' => true
             ];
@@ -184,14 +201,21 @@ class BookingController extends Controller
     }
     public function getHolidays()
     {
-        $holidays = Holiday::select('date')->get();
+        $holidays = Holiday::select('start_date', 'end_date')->get();
     
-        // Convert dates to Y-m-d format for Flatpickr
-        $formattedHolidays = $holidays->map(function ($holiday) {
-            return Carbon\Carbon::parse($holiday->date)->format('Y-m-d');
-        });
+        $disabledDates = [];
+
+        foreach ($holidays as $holiday) {
+            $startDate = Carbon::parse($holiday->start_date);
+            $endDate = Carbon::parse($holiday->end_date);
+
+            while ($startDate->lte($endDate)) {
+                $disabledDates[] = $startDate->format('Y-m-d');
+                $startDate->addDay();
+            }
+        }
     
-        return response()->json($holidays->pluck('date'));
+        return response()->json($disabledDates);
     }    
     public function getAvailableTimes(Request $request)
     {
@@ -215,9 +239,12 @@ class BookingController extends Controller
             }
 
             // Fetch booked times for this venue & date
-            $bookings = Reservation::where('venue_id', $venueId)
-                ->where('check_in_date', $date)
-                ->where('status', '!=', 'cancelled') // Exclude cancelled reservations
+            $bookings = Reservation::where('venue_id', $venueId)            
+                ->where('status', '!=', 'cancelled') 
+                ->where(function ($query) use ($date) {
+                    $query->whereDate('check_in_date', '<=', $date)
+                        ->whereDate('check_out_date', '>=', $date);
+                })
                 ->when($reservationId, function ($query) use ($reservationId) {
                     return $query->where('id', '!=', $reservationId); // Exclude the current reservation
                 })
@@ -255,7 +282,7 @@ class BookingController extends Controller
         $pendingReservations = Reservation::with(['venue', 'services'])->where('status', 'pending')->get();
 
         $services = Services::all(); 
-        $holidays = Holiday::select('date')->get();
+        $holidays = Holiday::select('start_date', 'end_date')->get();
 
         // Pass the reservations to the view
         return view('pending.pending', compact('pendingReservations', 'services', 'holidays'));

@@ -23,9 +23,9 @@
                     <div class="item venue-card">
                         <!-- Display the cover photo if it exists -->
                         @if($venue->cover_photo)
-                            <a href="#">
+                            
                                 <img src="{{ asset('storage/' . $venue->cover_photo) }}" alt="Cover Photo" class="venue-card img-fluid">
-                            </a>
+                            
                         @else
                             <p>No cover photo available</p>
                         @endif
@@ -44,7 +44,11 @@
                         </ul>
 
                         <div class="main-button">
-                            <a href="{{ route('booking.show', $venue->id) }}">Book Now</a>
+                            @if($venue->status == 'active')
+                                <a href="{{ route('booking.show', $venue->id) }}">Book Now</a>
+                            @else
+                                <a href="javascript:void(0)" class="btn btn-secondary disabled">Unavailable</a>
+                            @endif
                             <a href="javascript:void(0)" 
                             class="btn btn-info full-info-btn" 
                             data-bs-toggle="modal" 
@@ -118,6 +122,41 @@
                 {{ $venues->onEachSide(1)->links('pagination::custom') }} 
             </div>
         </div>
+
+        <!-- Floating Help Button -->
+        <button id="helpButton" class="btn btn-success help-button" data-bs-toggle="modal" data-bs-target="#helpModal"
+            data-bs-toggle="tooltip" data-bs-placement="left" title="Guide on How to use the Facilities Page.">
+            <i class="fas fa-question-circle"></i>
+        </button>
+
+        <!-- Help Modal -->
+        <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="helpModalLabel">Facilities Page Guide</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <h5 class="section-title">📌 Categories & Filtering</h5>
+                        <p class="mb-3">Venues are categorized based on their proximity. Click on a category to filter the venues.</p>
+
+                        <h5 class="section-title">📌 Booking a Venue</h5>
+                        <p class="mb-3">Each venue card has two options:</p>
+                        <ul class="guide-list">
+                            <li><strong>Full Info:</strong> View complete details about the venue.</li>
+                            <li><strong>Book Now:</strong> Proceed to the reservation process.</li>
+                        </ul>
+
+                        <h5 class="section-title">📌 Reservation Process</h5>
+                        <p class="mb-3">After selecting a venue, clicking <strong>Book Now</strong> will take you to the reservation form where you can provide booking details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -166,7 +205,10 @@
                                             </li>
                                         </ul>
                                         <div class="main-button">
-                                            <a href="/booking/${venue.id}" class="btn btn-primary">Book Now</a>
+                                            ${venue.status === 'active' 
+                                                ? `<a href="/booking/${venue.id}" class="btn btn-primary">Book Now</a>` 
+                                                : `<a href="javascript:void(0)" class="btn btn-secondary disabled">Unavailable</a>`
+                                            }
                                             <a href="javascript:void(0)" 
                                                 class="btn btn-info full-info-btn" 
                                                 data-bs-toggle="modal" 
@@ -225,12 +267,6 @@
     }
 });
 
-
-
-
-
-
-
     document.addEventListener("DOMContentLoaded", function () {
     const venueInfoModal = document.getElementById('venueInfoModal');
 
@@ -256,6 +292,9 @@
       document.getElementById('venueNotes').textContent = venueNotes;
     });
   });
+
+  //floating button
+  
 </script>
 
 <style>
@@ -319,7 +358,7 @@
     border-radius: 8px;
 }
 .modal-header {
-    border-bottom: none;
+    border-bottom: 1px solid #ddd;
 }
 .list-unstyled li {
     padding: 4px 0;
@@ -357,6 +396,73 @@
 /* Hide pagination when no venues are found */
 #paginationContainer.hidden {
     display: none;
+}
+
+/* Floating Help Button (Bottom Left) */
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;  /* Moved to the left */
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+.help-button:hover {
+    transform: scale(1.1);
+    background: #218838; /* Slightly darker green */
+}
+.modal-body {
+        padding: 20px;
+    }
+
+    .section-title {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .guide-list {
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    .guide-list li {
+        margin-bottom: 10px;
+    }
+    /* Position modal above the floating button */
+/* Position the modal above the floating button */
+#helpModal .modal-dialog {
+    position: fixed;
+    bottom: 80px; /* Adjust this value to set the distance above the button */
+    left: 20px; /* Align with the floating button */
+    transform: translateY(0);
+    width: 320px; /* Adjust modal width if necessary */
+    max-width: 90%; /* Ensures it doesn't overflow on smaller screens */
+}
+
+/* Responsive Adjustment */
+@media (max-width: 768px) {
+    #helpModal .modal-dialog {
+        bottom: 100px; /* Increase space for smaller screens */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+    }
+}
+/* Make the modal backdrop lighter */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.2) !important; /* Adjust the last value (0.2) for transparency */
 }
 
 

@@ -29,10 +29,6 @@ use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use App\Http\Controllers\ServiceReportController;
 
-Route::get('/healthz', function () {
-    return response()->json(['status' => 'ok']);
-});
-
 
 // Public Routes
 //Route::get('/', function () {
@@ -57,6 +53,7 @@ Route::get("/facilities",[FacilitiesController::class,"index"]); /*facilities */
 Route::get("/contact",[ContactController::class,"index"]); /*contact */
 //Route::get('/facilities', [FacilitiesController::class, 'index'])->name('facilities.facilities');
 Route::get('/facilities', [FacilitiesController::class, 'index'])->name('facilities.index');
+
 
 
 Route::get('/booking/success', function () {
@@ -121,12 +118,8 @@ Route::get('/get-booked-times', function () {
 });
 
 //Holidays
-Route::get('/get-holidays', [CalendarController::class, 'getHolidays']);
 Route::get('/get-holidays', [BookingController::class, 'getHolidays']);
 Route::get('/get-available-times', [BookingController::class, 'getAvailableTimes'])->name('available.times');
-Route::get('/get-holidays', function () {
-    return response()->json(Holiday::pluck('date')); // Returns array of holiday dates
-});
 Route::get('/get-reservations-by-date', [CalendarController::class, 'getReservationsByDate']);
 
 
@@ -162,6 +155,12 @@ Route::get('/venue-reports', [ReservationReportController::class, 'showVenueRepo
 Route::post('/venue-reports/generate', [ReservationReportController::class, 'generateVenueReport'])->name('venue.reservation.generate');
 
 Route::get('/receipt/{id}', [BookingController::class, 'showReceipt'])->name('receipt.view');
+
+Route::patch('/venue/disable/{id}', [VenuesController::class, 'disableVenue'])->name('venue.disable');
+Route::patch('/venue/enable/{id}', [VenuesController::class, 'enableVenue'])->name('venue.enable');
+
+Route::post('/venue-reservation/export', [ReservationReportController::class, 'exportToExcel'])
+    ->name('venue.reservation.export');
 
 
 // Resource Controllers

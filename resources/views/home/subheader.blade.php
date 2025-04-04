@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-8">
           <ul class="info">
-            <li><i class="fas fa-phone"></i> CALL US: (02)8330 9128 </li>
+            <li><i class="fas fa-phone"></i> CALL US: 2101 | 2125 | 2143 </li>
             
           </ul>
         </div>

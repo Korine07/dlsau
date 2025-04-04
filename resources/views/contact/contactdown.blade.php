@@ -17,7 +17,7 @@
             <div class="col-lg-12">
               <div class="item email">
                 <img src="assets/images/email-icon.png" alt="" style="max-width: 52px;">
-                <h6>dlsau@gmail.com<br><span>Email</span></h6>
+                <h6>Osfr.dlsau@gmail.com<br><span>Email</span></h6>
               </div>
             </div>
           </div>

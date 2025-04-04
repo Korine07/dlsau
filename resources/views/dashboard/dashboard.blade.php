@@ -10,7 +10,7 @@
             <div class="card shadow-sm p-3 bg-white rounded custom-card">
                 <div class="card-body text-center">
                     <h6 class="card-title text-muted">Pending</h6>
-                    <h2 class="font-weight-bold text-primary">{{ $total_pending }}</h2>
+                    <h2 class="font-weight-bold text-warning">{{ $total_pending }}</h2>
                     <span class="text-muted">Upcoming bookings</span>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="card shadow-sm p-3 bg-white rounded custom-card">
                 <div class="card-body text-center">
                     <h6 class="card-title text-muted">Confirmed</h6>
-                    <h2 class="font-weight-bold text-success">{{ $total_confirmed }}</h2>
+                    <h2 class="font-weight-bold" style="color: #fd7e14;">{{ $total_confirmed }}</h2>
                     <span class="text-muted">Approved bookings</span>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             <div class="card shadow-sm p-3 bg-white rounded custom-card">
                 <div class="card-body text-center">
                     <h6 class="card-title text-muted">Completed</h6>
-                    <h2 class="font-weight-bold text-warning">{{ $total_completed }}</h2>
+                    <h2 class="font-weight-bold text-primary">{{ $total_completed }}</h2>
                     <span class="text-muted">Finished bookings</span>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
     <!-- Graphs -->
     <div class="row mt-4 d-flex flex-nowrap overflow-auto"> 
-        <div class="col-lg-6 col-md-6 col-sm-12 d-flex flex-column min-width-chart">
+        <div class="col-lg-4 col-md-5 col-sm-12 d-flex flex-column min-width-chart">
             <h4 class="text-dark">Monthly Revenue</h4>
             <div class="card shadow-sm p-3 bg-white rounded custom-revenue-card flex-grow-1">
                 <canvas id="monthlyRevenueChart"></canvas>
@@ -54,13 +54,14 @@
         </div>
 
         <!-- Reservation Table -->
-        <div class="col-lg-6 col-md-6 col-sm-12 d-flex flex-column min-width-table">
+        <div class="col-lg-8 col-md-7 col-sm-12 d-flex flex-column min-width-table">
             <h4 class="text-dark">Reservations</h4>
             <div class="custom-table-container card shadow-sm p-3 bg-white rounded flex-grow-1">
                 <table class="table table-striped table-hover text-center">
                     <thead class="bg-light">
                         <tr>
                             <th>Customer</th>
+                            <th>Activity</th>
                             <th>Venue</th>
                             <th>Check-in</th>
                             <th>Check-out</th>
@@ -71,6 +72,11 @@
                         @foreach($upcomingReservations as $reservation)
                             <tr>
                                 <td>{{ $reservation->first_name }} {{ $reservation->last_name }}</td>
+                                <td>
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $reservation->activity_nature }}">
+                                        {{ Str::limit($reservation->activity_nature, 16, '...') }}
+                                    </span>
+                                </td>
                                 <td>{{ $reservation->venue->venue_name }}</td>
                                 <td>{{ $reservation->check_in_date }} {{ date('h:i A', strtotime($reservation->check_in_time)) }}</td>
                                 <td>{{ $reservation->check_out_date }} {{ date('h:i A', strtotime($reservation->check_out_time)) }}</td>
@@ -109,6 +115,13 @@
                     borderWidth: 2
                 }]
             }
+        });
+        //activity tooltip
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         });
     </script>
 </div>
@@ -162,11 +175,13 @@
     white-space: nowrap;
 }
 .min-width-chart {
-    min-width: 500px; /* Prevents the chart from shrinking */
+    min-width: 400px; /* Reduced width */
+    max-width: 100%;
     flex-grow: 1;
 }
 .min-width-table {
-    min-width: 500px; /* Prevents the table from shrinking */
+    min-width: 700px; /* Expanding width */
+    max-width: 900px; /* Maximum space allocation */
     flex-grow: 1;
 }
 

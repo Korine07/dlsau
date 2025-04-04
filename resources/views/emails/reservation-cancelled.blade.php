@@ -17,9 +17,7 @@
 <body>
 
     <div class="container">
-        <div class="header">
-            <img src="{{ asset('assets/images/DLSAUU.png') }}" alt="De La Salle Araneta University Logo">
-        </div>
+        
         <div class="content">
             <p>Dear {{ $reservation->first_name }} {{ $reservation->last_name }},</p>
             <p>We regret to inform you that your reservation has been <strong>cancelled</strong>. If this was unintentional or if you need to reschedule, please visit our Adserve Office with your receipt.</p>
@@ -33,7 +31,7 @@
 
             <p>Best regards,</p>
             <p><strong>De La Salle Araneta University</strong><br>
-            Adserve@gmail.com</p>
+            Osfr.dlsau@gmail.com</p>
         </div>
         <div class="footer">
             <p>&copy; {{ date('Y') }} AdServe | 2101 | 2125 | 2143</p>

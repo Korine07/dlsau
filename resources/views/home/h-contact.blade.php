@@ -22,7 +22,7 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <strong><i class="fas fa-envelope"></i></strong>
-                        <span>communications@dlsau.edu.ph</span>
+                        <span>Osfr.dlsau@gmail.com</span>
                     </div>
                 </div>
             </div>

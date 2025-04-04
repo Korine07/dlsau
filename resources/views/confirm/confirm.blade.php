@@ -70,7 +70,12 @@
                                 @endif
                             </td>
                             <td>{{ ucfirst($reservation->memtyp) }}</td>
-                            <td>{{ $reservation->activity_nature ?? 'Not specified' }}</td>
+                            <td>
+                                <span class="activity-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                    title="{{ $reservation->activity_nature ?? 'Not specified' }}">
+                                    {{ Str::limit($reservation->activity_nature ?? 'Not specified', 16, '...') }}
+                                </span>
+                            </td>
                             <td>₱{{ number_format($reservation->total_price, 2) }}</td>
                             <td>
                                 <span class="badge status-badge {{ strtolower($reservation->status) }}">
@@ -346,7 +351,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         // ✅ Initialize Flatpickr for Date & Time Pickers
         flatpickr(".flatpickr-date", { dateFormat: "Y-m-d", minDate: "today" });
-        flatpickr(".flatpickr-time", { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true, minTime: "07:00", maxTime: "17:00" });
+        flatpickr(".flatpickr-time", { enableTime: true, noCalendar: true, dateFormat: "H:i", time_24hr: true, minTime: "08:00", maxTime: "22:00" });
 
         // ✅ Update Total Price when Time Changes
         document.querySelectorAll(".flatpickr-time").forEach(input => {
@@ -434,7 +439,13 @@
             totalPriceField.value = `₱${finalTotal.toFixed(2)}`;
         }
     });
-    
+    //activity
+    document.addEventListener("DOMContentLoaded", function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
 </script>
 
 <style>

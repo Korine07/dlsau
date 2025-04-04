@@ -15,7 +15,23 @@
         @endif
         from <strong>{{ \Carbon\Carbon::parse($startDate)->format('M d, Y') }}</strong> 
         to <strong>{{ \Carbon\Carbon::parse($endDate)->format('M d, Y') }}</strong>
+        with status: <strong>{{ ucfirst($status) }}</strong>
     </p>
+
+<!-- ✅ Add Export Button Here -->
+<div class="d-flex justify-content-end mb-3">
+        <form action="{{ route('venue.reservation.export') }}" method="POST">
+            @csrf
+            <input type="hidden" name="start_date" value="{{ $startDate }}">
+            <input type="hidden" name="end_date" value="{{ $endDate }}">
+            <input type="hidden" name="venue_id" value="{{ request('venue_id') }}">
+            <input type="hidden" name="status" value="{{ request('status') }}">
+
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-file-excel"></i> Export to Excel
+            </button>
+        </form>
+    </div>
 
     @if($reports->isEmpty())
         <p style="text-align: center;">No reservations found for this venue and date range.</p>
@@ -35,6 +51,7 @@
                     <th>Service</th>
                     <th>Total Hours</th>
                     <th>Total Price</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,6 +81,11 @@
                     </td>
                     <td>{{ $report->total_hours }}</td> 
                     <td>₱{{ number_format($report->total_price, 2) }}</td> 
+                    <td>
+                        <span class="status-badge status-{{ strtolower($report->status) }}">
+                            {{ ucfirst($report->status) }}
+                        </span>
+                    </td> 
                 </tr>
                 @endforeach
             </tbody>
@@ -74,4 +96,38 @@
     <br>
     <a href="{{ route('venue.reservation.list') }}" style="display: block; text-align: center;">Go Back</a>
 </div>
+
+<style>
+    .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+/* Color Coordination for Different Statuses */
+.status-pending {
+    background-color: #ffc107; /* Yellow */
+}
+
+.status-confirmed {
+    background-color: #28a745; /* Green */
+}
+
+.status-completed {
+    background-color: #007bff; /* Blue */
+}
+
+.status-cancelled {
+    background-color: #dc3545; /* Red */
+}
+
+.status-archived {
+    background-color: #6c757d; /* Gray */
+}
+
+</style>
 @endsection

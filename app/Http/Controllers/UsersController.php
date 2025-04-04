@@ -43,7 +43,7 @@ class UsersController extends Controller
         'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:5120', // 5MB = 5120KB
     ], [
         'email.required' => 'Please enter your email address.',
-        'email.email' => 'Please include an "@" in the email address.',
+        'email.email' => 'Please include an "@, ." in the email address.',
         'email.max' => 'The email address should not exceed 32 characters.',
         'email.unique' => 'This email address is already taken.',
         'password.required' => 'Please enter a password.',

@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-12 d-flex justify-content-between align-items-center">
-            <h2 class="text-dark">Generate Venue-Specific Reservation Report</h2>
+            <h2 class="text-dark">Generate Reservation Report</h2>
         </div>
     </div>
 
@@ -16,15 +16,32 @@
         @csrf
         <div class="row">
             <!-- Venue Dropdown -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="venue_id" class="form-label">Select Venue:</label>
                 <select id="venue_id" name="venue_id" class="form-control" required>
-                    <option value="">-- Select Venue --</option>
+                    <option value="" disabled selected>-- Select Venue --</option>
                     <option value="all">All</option> 
                     @foreach($venues as $venue)
                         <option value="{{ $venue->id }}">{{ $venue->venue_name }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <!-- Reservation Status Dropdown -->
+            <div class="col-md-2">
+                <label for="status" class="form-label">Select Status:</label>
+                <select id="status" name="status" class="form-control" required>
+                    <option value="" disabled selected>-- Select Status --</option> <!-- Ensures validation -->
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="archived">Archived</option>
+                </select>
+                @error('status')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <!-- Start Date -->

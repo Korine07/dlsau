@@ -148,5 +148,22 @@ class VenuesController extends Controller
     {
         
     }
-    
+    public function disableVenue($id)
+    {
+        $venue = Venue::findOrFail($id);
+        $venue->status = 'disabled';
+        $venue->save();
+
+        return redirect()->back()->with('success', 'Venue has been disabled.');
+    }
+
+    public function enableVenue($id)
+    {
+        $venue = Venue::findOrFail($id);
+        $venue->status = 'active';
+        $venue->save();
+
+        return redirect()->back()->with('success', 'Venue has been enabled.');
+    }
+
 }

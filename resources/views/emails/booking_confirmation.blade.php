@@ -14,10 +14,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="{{ asset('assets/images/DLSAUU.png') }}" alt="De La Salle Araneta University Logo">
-            
-        </div>
+        
         <p>Dear {{ $reservation->first_name }} {{ $reservation->last_name }},</p>
         <p>Thank you for your reservation request. Your booking is currently <strong>pending</strong> and awaiting confirmation. We will notify you once your reservation is confirmed.</p>
         
@@ -30,7 +27,7 @@
 
         <p>Best regards,</p>
         <p><strong>De La Salle Araneta University</strong><br>
-        Adserve@gmail.com</p>
+        Osfr.dlsau@gmail.com</p>
         <div class="footer">
             <p>&copy; {{ date('Y') }} AdServe | 2101 | 2125 | 2143</p>
         </div>

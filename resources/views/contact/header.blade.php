@@ -5,7 +5,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                      <!-- ***** Logo Start ***** -->
-                        <a href="{{url('home')}}" class="logo">
+                        <a class="logo">
                             <img src="/assets/images/univ.logo.png" alt="De La Salle Araneta University" class="h-16 w-auto">
                         </a>
                     <!-- ***** Logo End ***** -->

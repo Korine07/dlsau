@@ -36,7 +36,7 @@
                 </button>
                 <!-- Search Bar -->
                 <div class="input-group ms-3" style="width: 170px;">
-                    <input type="text" id="searchPending" class="form-control form-control-sm" placeholder="Search reservations...">
+                    <input type="text" id="searchPending" class="form-control form-control-sm" placeholder="Search categories...">
                     <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
                 </div>
             </div>
@@ -120,10 +120,9 @@
                 <div class="d-flex align-items-center">
                     <label for="custom-page-length" class="me-2 mb-0 text-gray">Rows per page:</label>
                     <select id="custom-page-length" class="form-select form-select-sm" style="width: auto;">
-                        <option value="15" selected>15</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
                     </select>
                 </div>
                 <!-- Pagination: Moved Below -->
@@ -142,8 +141,8 @@
             "searching": true,      // Enable searching but hide the default search bar
             "ordering": true,       // Enable sorting
             "info": true,           // Show "Showing X to Y of Z entries"
-            "lengthMenu": [15, 25, 50], // Page length options
-            "pageLength": 15,       // Default rows per page
+            "lengthMenu": [5, 10, 15], // Page length options
+            "pageLength": 5,       // Default rows per page
             "order": [[0, "asc"]], // Default sorting by Date (column index 0)
 
             // Disable sorting for the Action column (last column)

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('venue_notes')->nullable();
             $table->string('cover_photo')->nullable();
             $table->json('slider_images')->nullable();
+            $table->enum('status', ['active', 'disabled'])->default('active');
             $table->timestamps();
 
         $table->foreign('venue_category_id')->references('id')->on('categories');
@@ -34,6 +35,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('venues');
+        Schema::table('venues', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

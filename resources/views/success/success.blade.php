@@ -72,7 +72,7 @@
         <img src="{{ asset('assets/images/success.png') }}" alt="Success Icon" class="logo">
         <i class="fas fa-check-circle success-icon"></i>
         <h1 class="success-title">Booking Confirmed!</h1>
-        <p class="success-message">Your booking has been successfully submitted. A confirmation email has been sent to your inbox.</p>
+        <p class="success-message">Your booking has been successfully submitted. A confirmation email has been sent to your inbox or check your spam.</p>
         <a href="{{ url('/home') }}" class="home-btn">Return to Home</a>
     </div>
 </body>

@@ -1245,9 +1245,9 @@ Page Header Style
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 110px 0px;
+  padding: 55px 0px;
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .page-heading span {
@@ -1282,8 +1282,8 @@ Properties Style
 .properties ul.properties-filter {
   list-style: none;
   text-align: center;
-  margin-bottom: 70px;
-  margin-top: 70px;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .properties ul.properties-filter li {

@@ -9,7 +9,7 @@
             <div class="d-flex align-items-center">
                 <!-- Search Bar -->
                 <div class="input-group ms-3" style="width: 170px;">
-                    <input type="text" id="searchPending" class="form-control form-control-sm" placeholder="Search reservations...">
+                    <input type="text" id="searchPending" class="form-control form-control-sm" placeholder="Search venues...">
                     <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
                 </div>
             </div>
@@ -35,10 +35,10 @@
                             <th class="table-column-number">#</th>
                             <th>Venue Name</th>
                             <th>Category</th>
-                            <th>Member Price</th>
+                            <th>Partner Price</th>
                             <th>Guest Price</th>
                             <th>Capacity</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,6 +55,25 @@
                                 <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ $venue->id }}">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
                                 </button>
+
+                                <!-- Enable/Disable Button -->
+                                @if ($venue->status == 'active')
+                                    <form method="POST" action="{{ route('venue.disable', $venue->id) }}" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-warning btn-sm text-white" onclick="return confirm('Are you sure you want to disable this venue?')">
+                                            Disable
+                                        </button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('venue.enable', $venue->id) }}" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure you want to enable this venue?')">
+                                            Enable
+                                        </button>
+                                    </form>
+                                @endif
 
                                 <!-- Delete Button -->
                                 <form method="POST" action="{{ route('venue_list.destroy', $venue->id) }}" style="display:inline;">
@@ -219,10 +238,9 @@
                 <div class="d-flex align-items-center">
                     <label for="custom-page-length" class="me-2 mb-0 text-gray">Rows per page:</label>
                     <select id="custom-page-length" class="form-select form-select-sm" style="width: auto;">
-                        <option value="15" selected>15</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
                     </select>
                 </div>
                 <!-- Pagination: Moved Below -->
@@ -241,8 +259,8 @@
             "searching": true,      // Enable searching but hide the default search bar
             "ordering": true,       // Enable sorting
             "info": true,           // Show "Showing X to Y of Z entries"
-            "lengthMenu": [15, 25, 50], // Page length options
-            "pageLength": 15,       // Default rows per page
+            "lengthMenu": [10, 20, 30], // Page length options
+            "pageLength": 10,       // Default rows per page
             "order": [[0, "asc"]], // Default sorting by Date (column index 0)
 
             // Disable sorting for the Action column (last column)

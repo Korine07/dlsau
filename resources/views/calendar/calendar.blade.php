@@ -3,8 +3,14 @@
 @section('content')
 <div class="container mt-4">
     <div class="row d-flex flex-wrap">
+
+        <!-- Calendar Section -->
+        <div id="calendar-container" class="col-md-9 col-12 order-md-1 order-2">
+            <div id="calendar" class="shadow-sm p-3 bg-white rounded"></div>
+        </div>
+
         <!-- Holiday List -->
-        <div id="holiday-container" class="col-md-5 col-12 mb-4">
+        <div id="holiday-container" class="col-md-5 col-12 mb-4 order-md-2 order-1">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="text-dark">Holiday List</h4>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHolidayModal">
@@ -21,7 +27,8 @@
                     <table id="holidayTable" class="table table-striped table-hover text-center align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>Date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Reason</th>
                                 <th>Action</th>
                             </tr>
@@ -40,7 +47,6 @@
                             <option value="10" selected>10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
-                            <option value="100">100</option>
                         </select>
                     </div>
                     <!-- Pagination: Moved Below -->
@@ -50,16 +56,12 @@
                         <button id="next-page" class="btn btn-light btn-sm ms">❯</button>
                     </div>
                 </div>
-
+            </div>
         </div>
 
-        <!-- Calendar Section -->
-        <div id="calendar-container" class="col-md-9 col-12">
-                <div id="calendar" class="shadow-sm p-3 bg-white rounded"></div>
-        </div>
                 <!-- Legend Section -->
                 <div class="legend-container mt-4">
-                    <div class="d-flex justify-content-start">
+                    <div class="d-flex justify-content-start flex-wrap">
                         <div class="d-flex align-items-center mb-2 me-3">
                             <span class="legend-circle" style="background-color: #ffc107;"></span>
                             <span class="ms-2">Pending</span>
@@ -82,6 +84,7 @@
                         </div>
                     </div>
                 </div>
+                
 
         <!-- Add Holiday Modal -->
         <div class="modal fade" id="addHolidayModal" tabindex="-1" aria-labelledby="addHolidayModalLabel" aria-hidden="true">
@@ -94,8 +97,13 @@
                     <div class="modal-body">
                         <form id="holiday-form">
                             <div class="mb-3">
-                                <label for="date" class="form-label">Date</label>
-                                <input type="date" id="date" name="date" class="form-control" required>
+                                <label for="start_date" class="form-label">Start Date</label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">End Date</label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" required>
+                                <div id="end-date-error" class="text-danger small mt-1" style="display: none;"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="reason" class="form-label">Reason</label>
@@ -121,13 +129,21 @@
                         <form id="edit-holiday-form">
                             <input type="hidden" id="edit-holiday-id">
                             <div class="mb-3">
-                                <label for="edit-date" class="form-label">Date</label>
-                                <input type="date" id="edit-date" name="date" class="form-control" required>
+                                <label for="edit-start_date" class="form-label">Start Date</label>
+                                <input type="date" id="edit-start_date" name="start_date" class="form-control" required>
                             </div>
+
+                            <div class="mb-3">
+                                <label for="edit-end_date" class="form-label">End Date</label>
+                                <input type="date" id="edit-end_date" name="end_date" class="form-control" required>
+                                <div id="edit-end-date-error" class="text-danger small mt-1" style="display: none;"></div>
+                            </div>
+
                             <div class="mb-3">
                                 <label for="edit-reason" class="form-label">Reason</label>
                                 <input type="text" id="edit-reason" name="reason" class="form-control" required maxlength="32">
                             </div>
+
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-success">Update</button>
                             </div>
@@ -224,15 +240,22 @@
             }
 
             let eventModal = document.getElementById("eventDetailsModal");
+            let modalContent = document.querySelector(".modal-dialog-custom");
 
-            let eventDate = new Date(info.event.start);
-            let localDate = eventDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            let startDate = new Date(info.event.start);
+
+            let endDate = new Date(info.event.end);
+            endDate.setDate(endDate.getDate() - 1);
+
+            let formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            let formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
             // Check if the event is a holiday
             if (info.event.id.includes("holiday-")) {
-                document.getElementById("event-title").innerText = "Holiday";
+                document.getElementById("event-title").innerText = info.event.title;
                 document.getElementById("event-description").innerHTML = `
-                    <p><strong>Date:</strong> ${localDate}</p>
+                    <p><strong>Start Date:</strong> ${formattedStartDate}</p>
+                    <p><strong>End Date:</strong> ${formattedEndDate}</p>
                     <p><strong>Reason:</strong> ${info.event.title}</p>
                 `;
             } 
@@ -240,10 +263,10 @@
             else {
                 let statusColor = info.event.backgroundColor || "#6c757d";
 
-                document.getElementById("event-title").innerText = "Reservation Details";
+                document.getElementById("event-title").innerText = info.event.extendedProps.activity || "No Activity Provided";
                 document.getElementById("event-description").innerHTML = `
                     <p><strong>Venue:</strong> ${info.event.title}</p>
-                    <p><strong>Date:</strong> ${localDate}</p>
+                    <p><strong>Date:</strong> ${formattedStartDate}</p>
                     <p><strong>Check-in:</strong> ${info.event.extendedProps.check_in_time}</p>
                     <p><strong>Check-out:</strong> ${info.event.extendedProps.check_out_time}</p>
                     <p><strong>Customer:</strong> ${info.event.extendedProps.first_name} ${info.event.extendedProps.last_name}</p>
@@ -314,7 +337,8 @@
 
             data.forEach(holiday => {
                 holidayTable.row.add([
-                    holiday.date,
+                    holiday.start_date,
+                    holiday.end_date,
                     holiday.reason,
                     `
                     <div class="dropdown">
@@ -323,7 +347,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton${holiday.id}">
                             <li>
-                                <button class="dropdown-item edit-btn" data-id="${holiday.id}" data-date="${holiday.date}" data-reason="${holiday.reason}">
+                                <button class="dropdown-item edit-btn" data-id="${holiday.id}" data-start_date="${holiday.start_date}" data-end_date="${holiday.end_date}" data-reason="${holiday.reason}">
                                     <i class="fa fa-pencil"></i> Edit
                                 </button>
                             </li>
@@ -347,28 +371,77 @@
     loadHolidayList();
 
     function attachEventListeners() {
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                let id = this.getAttribute("data-id");
-                let date = this.getAttribute("data-date");
-                let reason = this.getAttribute("data-reason");
+        $('#holidayTable tbody').on('click', '.edit-btn', function () {
+            let button = $(this);
+            let id = button.data('id');
+            let start_date = button.data('start_date');
+            let end_date = button.data('end_date');
+            let reason = button.data('reason');
 
-                document.getElementById("edit-holiday-id").value = id;
-                document.getElementById("edit-date").value = date;
-                document.getElementById("edit-reason").value = reason;
+            $('#edit-holiday-id').val(id);
+            $('#edit-start_date').val(start_date);
+            $('#edit-end_date').val(end_date);
+            $('#edit-reason').val(reason);
 
-                let editModal = new bootstrap.Modal(document.getElementById("editHolidayModal"));
-                editModal.show();
-            });
+            let editModal = new bootstrap.Modal(document.getElementById("editHolidayModal"));
+            editModal.show();
         });
 
-        document.querySelectorAll(".delete-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                let id = this.getAttribute("data-id");
-                deleteHoliday(id);
-            });
-        });
+        // Use jQuery to delegate click event for delete buttons
+        $('#holidayTable tbody').on('click', '.delete-btn', function () {
+            let id = $(this).data('id');
+            deleteHoliday(id);
+        }); 
     }
+
+    document.getElementById("edit-holiday-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const start = new Date(document.getElementById("edit-start_date").value);
+        const end = new Date(document.getElementById("edit-end_date").value);
+
+        const errorDiv = document.getElementById("edit-end-date-error");
+        errorDiv.style.display = "none";
+
+        if (end < start) {
+            errorDiv.textContent = "End date must be the same as or after the start date.";
+            errorDiv.style.display = "block";
+            return;
+        }
+
+        const id = document.getElementById("edit-holiday-id").value;
+
+        const formData = {
+            start_date: document.getElementById("edit-start_date").value,
+            end_date: document.getElementById("edit-end_date").value,
+            reason: document.getElementById("edit-reason").value
+        };
+
+        fetch(`/holidays/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            showFlashMessage(data.message, "success");
+            loadHolidayList();
+            calendar.refetchEvents();
+
+            const editModal = bootstrap.Modal.getInstance(document.getElementById("editHolidayModal"));
+            if (editModal) editModal.hide();
+
+            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+            document.body.classList.remove('modal-open');
+        })
+        .catch(error => {
+            console.error("Error updating holiday:", error);
+            showFlashMessage("Failed to update holiday", "danger");
+        });
+    });
 
     function deleteHoliday(id) {
         if (!confirm("Are you sure you want to delete this holiday?")) return;
@@ -391,7 +464,25 @@
 
     document.getElementById("holiday-form").addEventListener("submit", function (e) {
         e.preventDefault();
-        const formData = { date: document.getElementById("date").value, reason: document.getElementById("reason").value };
+
+        const start = new Date(document.getElementById("start_date").value);
+        const end = new Date(document.getElementById("end_date").value);
+
+        const errorDiv = document.getElementById("end-date-error");
+        errorDiv.style.display = "none"; // reset previous error
+
+        if (end < start) {
+            errorDiv.textContent = "End date must be the same as or after the start date.";
+            errorDiv.style.display = "block";
+            return; // prevent form submission
+        }
+
+
+        const formData = {
+            start_date: document.getElementById("start_date").value,
+            end_date: document.getElementById("end_date").value,
+            reason: document.getElementById("reason").value
+        };
 
         fetch("/holidays", {
             method: "POST",
@@ -402,11 +493,12 @@
         .then(data => {
             showFlashMessage(data.message);
             loadHolidayList();
+
             calendar.refetchEvents();
 
             // ✅ Close the modal properly
             const addModal = bootstrap.Modal.getInstance(document.getElementById("addHolidayModal"));
-            addModal.hide();
+            if (addModal) addModal.hide();
 
             // ✅ Ensure backdrop is removed and body class is reset
             document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
@@ -419,17 +511,23 @@
     });
 
     // Handle holiday form submission
-    document.getElementById("edit-holiday-form").addEventListener("submit", function (e) {
-        e.preventDefault();
+    document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript Loaded");
 
-        const id = document.getElementById("edit-holiday-id").value;
+    document.getElementById("holiday-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        console.log("Form Submission Triggered...");
+
         const formData = {
-            date: document.getElementById("edit-date").value,
-            reason: document.getElementById("edit-reason").value,
+            start_date: document.getElementById("start_date").value,
+            end_date: document.getElementById("end_date").value,
+            reason: document.getElementById("reason").value
         };
 
-        fetch(`/holidays/${id}`, {
-            method: "PUT",
+        console.log("Form Data:", formData);
+
+        fetch("/holidays", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
@@ -438,18 +536,29 @@
         })
         .then(response => response.json())
         .then(data => {
-            showFlashMessage(data.message);
-            loadHolidayList();
-            calendar.refetchEvents();
+            console.log("Server Response:", data);
 
-            const editModal = bootstrap.Modal.getInstance(document.getElementById("editHolidayModal"));
-            editModal.hide();
+            if (data.message) {
+                showFlashMessage(data.message);
+                loadHolidayList();
+                calendar.refetchEvents();
 
-            document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
-            document.body.classList.remove("modal-open");
+                // ✅ Close modal properly
+                const addModal = bootstrap.Modal.getInstance(document.getElementById("addHolidayModal"));
+                if (addModal) {
+                    addModal.hide();
+                }
+
+                // ✅ Reset form
+                document.getElementById("holiday-form").reset();
+            } else {
+                console.error("Error: No success message from server.");
+            }
         })
-        .catch(error => console.error("Error updating holiday:", error));
+        .catch(error => console.error("Error adding holiday:", error));
     });
+});
+
 });
     //datatable
     $(document).ready(function() {
@@ -463,7 +572,7 @@
         "order": [[0, "asc"]], // Default sort by Date (column index 0)
 
         "columnDefs": [
-            { "orderable": false, "targets": [2] },  // Disable sorting for Action column
+            { "orderable": false, "targets": [3] },  // Disable sorting for Action column
         ],
 
         "dom": 't' // ✅ Removes built-in pagination controls (Only table remains)
@@ -685,6 +794,9 @@ td .dropdown {
     #calendar-container {
         width: 100%;
     }
+}
+.justify-content-start {
+    margin-left: -400px;
 }
 </style>
 @endsection

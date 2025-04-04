@@ -66,13 +66,13 @@
                     Log in
                 </button>
 
-                <!-- Register Link -->
+                <!-- Register Link 
                 <p class="text-sm text-center text-gray-600 mt-4">
                     Not registered? 
                     <a href="{{ route('register') }}" class="text-green-600 font-semibold hover:underline">
                         Create an account
                     </a>
-                </p>
+                </p>-->
             </form>
         </div>
     </div>

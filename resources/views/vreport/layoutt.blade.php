@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{{ asset('assets/images/DLSAU.png') }}">
-    <title>Reservation Report - Completed</title>
+    <title>Reservation Report</title>
     <style>
         @page {
             size: 8.5in 11in;  /* Letter size paper */

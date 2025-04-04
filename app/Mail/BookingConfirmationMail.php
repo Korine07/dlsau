@@ -19,7 +19,7 @@ class BookingConfirmationMail extends Mailable
 
     public function build()
     {
-        return $this->from('noreply@example.com', 'Your Booking System')
+        return $this->from('noreply@example.com', 'OSFR')
                     ->subject('Your Booking Confirmation')
                     ->view('emails.booking_confirmation')
                     ->with(['reservation' => $this->reservation]); // ✅ Pass correctly

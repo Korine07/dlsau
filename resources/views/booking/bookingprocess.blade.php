@@ -1,5 +1,14 @@
-<div class="single-property section py-5">
+<div class="single-property section">
     <div class="container">
+        <div class="container mb-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="{{ route('facilities.index') }}">Facilities</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Booking</li>
+                </ol>
+            </nav>
+        </div>
+    
         <div class="row">
             <!-- Main Content Section -->
             <div class="col-lg-8 mb-4">
@@ -25,7 +34,7 @@
                 @endif
                 </div>
                 <div class="main-content">
-                    <span class="category badge bg-success mb-3">{{ $venue->categories->name ?? 'Uncategorized' }}</span>
+                    <span class="category badge bg-success mb-3" style="color: white;">{{ $venue->categories->name ?? 'Uncategorized' }}</span>
                     <h4>{{ $venue->venue_name }}</h4>
                     <p>{{ $venue->venue_description }}</p>
                 </div>
@@ -47,7 +56,7 @@
                         </li>
                         <li class="mb-3 d-flex align-items-center">
                             <img src="{{ asset('assets/images/info-icon-03.png') }}" alt="" class="icon">
-                            <strong>Member Price: </strong> ₱{{ number_format($venue->member_price, 2) }}
+                            <strong>Partner Price: </strong> ₱{{ number_format($venue->member_price, 2) }}
                         </li>
 
                         <li class="mb-3 d-flex align-items-center">
@@ -182,7 +191,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="first_name">First Name</label>
-                                            <input type="text" name="first_name" class="form-control custom-input" placeholder="Enter First Name" pattern="[A-Za-z\s]+" title="First name should only contain letters and spaces." required>
+                                            <input type="text" name="first_name" class="form-control {{ $errors->has('first_name') ? 'is-invalid' : '' }}" pattern="[A-Za-z\s]+" title="First name should only contain letters and spaces." 
+                                            value="{{ old('first_name') }}" required>
+                                            @if ($errors->has('first_name'))
+                                                <div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -190,7 +203,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="last_name">Last Name</label>
-                                            <input type="text" name="last_name" class="form-control custom-input" placeholder="Enter Last Name" pattern="[A-Za-z\s]+" title="Last name should only contain letters and spaces."  required>
+                                            <input type="text" name="last_name" class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" pattern="[A-Za-z\s]+" title="Last name should only contain letters and spaces."  
+                                            value="{{ old('last_name') }}" required>
+                                            @if ($errors->has('last_name'))
+                                                <div class="invalid-feedback">{{ $errors->first('last_name') }}</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -198,25 +215,39 @@
                                     <!-- Email -->
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="email">Email Address</label>
-                                            <input type="email" name="email" class="form-control custom-input" placeholder="Enter Email Address" required>
+                                            <label for="email">Email Address
+                                                <i class="fas fa-info-circle ms-2" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="right" 
+                                                title="Email must be a Gmail or Yahoo address (e.g., example@gmail.com or example@yahoo.com).">
+                                                </i>
+                                            </label>
+                                            <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" 
+                                            value="{{ old('email') }}" required>
+                                            @if ($errors->has('email'))
+                                                <div class="invalid-feedback">{{ $errors->first('email') }}</div>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <!-- Contact -->
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="phone">Contact Number</label>
+                                            <label for="phone">Contact Number
+                                                <i class="fas fa-info-circle ms-2" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="right" 
+                                                title="Please enter a valid Philippine phone number (e.g., 09123456789).">
+                                                </i>
+                                            </label>
                                             <input 
                                                 type="text" 
                                                 name="phone" 
                                                 id="phone" 
-                                                class="form-control custom-input" 
-                                                placeholder="Enter Contact Number" 
+                                                class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}"
                                                 pattern="^(09|\+639)\d{9}$"
-                                                title="Please enter a valid Philippine phone number starting with 09 or +639 followed by 9 digits."
-                                                required
-                                            >
+                                                title="Please enter a valid Philippine phone number starting with 09."
+                                                value="{{ old('phone') }}" required>
                                             <div id="contactError" class="text-danger mt-2" style="display: none;">
                                                 Please enter numbers only!
                                             </div>
@@ -232,11 +263,9 @@
                                                 type="number" 
                                                 name="expected_guests" 
                                                 id="expected_guests" 
-                                                class="form-control custom-input" 
-                                                placeholder="Enter Guest Count" 
+                                                class="form-control {{ $errors->has('expected_guests') ? 'is-invalid' : '' }}"
                                                 data-capacity="{{ $venue->venue_capacity }}" 
-                                                required
-                                            >
+                                                value="{{ old('expected_guests') }}" required>
                                             <small>Capacity Maximum: {{ $venue->venue_capacity }}</small>
                                             <div id="guestsError" class="text-danger mt-2" style="display: none;">Number of guests exceeds the venue's capacity!</div>
                                         </div>
@@ -245,10 +274,17 @@
                                     <!-- Member -->
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="memtyp">Select Member Type</label>
-                                            <select name="memtyp" class="form-control" id="memtyp">
-                                                <option value="guest">GUEST</option>
-                                                <option value="member">MEMBER</option>
+                                            <label for="memtyp">Select Member Type
+                                                <i class="fas fa-info-circle ms-2" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="right" 
+                                                title="Select 'Partner' if you are a student or staff member of the university. Guests are external visitors.">
+                                                </i>
+                                            </label>
+                                            <select name="memtyp" class="form-select" id="memtyp" required>
+                                                <option value="" disabled selected></option>
+                                                <option value="guest">Guest</option>
+                                                <option value="member">Partner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -261,15 +297,16 @@
                                             <div class="d-flex align-items-center">
                                                 <input type="text" 
                                                     name="activity_nature" 
-                                                    class="form-control custom-input" 
-                                                    placeholder="Enter the nature of the activity"
+                                                    class="form-control {{ $errors->has('activity_nature') ? 'is-invalid' : '' }}"
                                                     id="activity_nature"
-                                                    maxlength="32"
+                                                    maxlength="64"
+                                                    value="{{ old('activity_nature') }}"
+                                                    required
                                                     aria-describedby="activity_nature_help">
                                                 <i class="fas fa-info-circle ms-2" id="tooltip-icon" 
                                                 data-bs-toggle="tooltip" 
                                                 data-bs-placement="right" 
-                                                title="You can enter Co-curricular Activity, Extra-curricular Activity, or University Activity." 
+                                                title="You can enter Co-curricular Activity, University Activity, or other." 
                                                 style="cursor: pointer;"></i>
                                             </div>
                                             <!-- Error message for activity nature -->
@@ -287,24 +324,33 @@
                                 <div class="col-md-6">
                                     <!-- Check-in Date -->
                                     <div class="form-group mb-3">
-                                        <label for="check_in_datetime">Check-in Date</label>
-                                        <input type="text" id="check_in_datetime" name="check_in_date" class="form-control custom-input" placeholder="Select Date">
+                                        <label for="check_in_datetime">Check-in Date
+                                            <i class="fas fa-info-circle ms-2" 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="right" 
+                                            title="Ensure no overlapping reservations—check the calendar before selecting a date.">
+                                            </i>
+                                        </label>
+                                        <input type="text" id="check_in_datetime" name="check_in_date" class="form-select custom-input" placeholder="Select Date">
                                         <div class="text-danger validation-message" id="checkInDateError" style="display: none;">
-        Please fill out this field.
-    </div>
+                                            Please fill out this field.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <!-- Check-in Time -->
                                     <div class="form-group mb-3">
-                                        <label for="check_in_time">Check-in Time</label>
+                                        <label for="check_in_time">Check-in Time
+                                            <i class="fas fa-info-circle ms-2" 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="right" 
+                                            title="Ensure no overlapping reservations—check the calendar before selecting a time.">
+                                            </i>
+                                        </label>
                                         <div class="input-group">
-                                            <select id="check_in_time" name="check_in_time" class="form-control" required disabled>
+                                            <select id="check_in_time" name="check_in_time" class="form-select" required disabled>
                                                 <option value="">Select Time</option>
                                             </select>
-                                            <span class="input-group-text custom-icon no-border">
-                                                <i class="fas fa-clock"></i> 
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -315,10 +361,10 @@
                                     <!-- Check-out Date -->
                                     <div class="form-group mb-3">
                                         <label for="check_out_datetime">Check-out Date</label>
-                                        <input type="text" id="check_out_datetime" name="check_out_date" class="form-control custom-input" placeholder="Select Date">
+                                        <input type="text" id="check_out_datetime" name="check_out_date" class="form-select custom-input" placeholder="Select Date">
                                         <div class="text-danger validation-message" id="checkOutDateError" style="display: none;">
-        Please fill out this field.
-    </div>
+                                            Please fill out this field.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -326,12 +372,9 @@
                                     <div class="form-group mb-3">
                                         <label for="check_out_time">Check-out Time</label>
                                         <div class="input-group">
-                                            <select id="check_out_time" name="check_out_time" class="form-control" required disabled>
+                                            <select id="check_out_time" name="check_out_time" class="form-select" required disabled>
                                                 <option value="">Select Time</option>
                                             </select>
-                                            <span class="input-group-text custom-icon no-border">
-                                                <i class="fas fa-clock"></i> 
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -340,7 +383,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group mb-3">
-                                        <label>Additional Services</label>
+                                        <label>Additional Services
+                                            <i class="fas fa-info-circle ms-2" 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="right" 
+                                            title="If you accidentally click the 'Add Service', you can remove it by clicking the 'Remove' button.">
+                                            </i>
+                                        </label>
                                         <div id="services-container">
                                             <!-- Service selection will be added dynamically here -->
                                         </div>
@@ -389,6 +438,57 @@
                 </div>
                 <div class="modal-body" id="event-description">
                     <!-- Event details will be injected here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Help Button -->
+    <button id="helpButton" type="button" class="help-button" data-bs-toggle="modal" data-bs-target="#helpModal"
+        data-bs-toggle="tooltip" data-bs-placement="left" title="Click to View Booking Guide">
+        <i class="fas fa-question-circle"></i>
+    </button>
+
+    <!-- Booking Guide Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">How to Reserve</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5 class="modal-section-title">📅 Step 1: Check Availability</h5>
+                    <ul class="modal-list">
+                        <li>View the calendar to see available dates and times.</li>
+                        <li>Click on a reservation in the calendar to view its details.</li>
+                        <li>If your preferred date and time are available, proceed to the next step.</li>
+                    </ul>
+
+                    <h5 class="modal-section-title">⚠️ Step 2: Check the Details Before Submitting</h5>
+                    <ul class="modal-list">
+                        <li>Double-check the details before submitting.</li>
+                        <li>Some fields have info icons 🛈 — hover over them for formatting tips.</li>
+                    </ul>
+
+                    <h5 class="modal-section-title">🎯 Step 3: Additional Options</h5>
+                    <ul class="modal-list">
+                        <li>You can add extra services if needed.</li>
+                        <li>If you accidentally click "Add Service", make sure to remove it.</li>
+                    </ul>
+
+                    <h5 class="modal-section-title">💰 Step 4: Confirmation</h5>
+                    <ul class="modal-list">
+                        <li>Once you submit, your booking request will be reviewed.</li>
+                    </ul>
+
+                    <p class="success-message">
+                        <i class="fas fa-check-circle text-success"></i> If your reservation is successful, you will receive an email confirmation.  
+                        Please check your inbox (or spam folder) for further instructions.
+                    </p>
+
+                    <p class="modal-note"><strong>Note:</strong> Please be reminded that the lead time for a successful reservation is 3 days prior to the date of use.</p>
                 </div>
             </div>
         </div>
@@ -546,22 +646,28 @@
                     let eventModal = document.getElementById("eventDetailsModal");
                     let modalContent = document.querySelector(".modal-dialog-custom");
 
-                    let eventDate = new Date(info.event.startStr); 
-                    let localDate = eventDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    let startDate = new Date(info.event.startStr);
+                    let endDate = new Date(info.event.endStr);
+
+                    endDate.setDate(endDate.getDate() - 1);
+
+                    let formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    let formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
                     if (info.event.id.startsWith("holiday-")) {
-                        document.getElementById("event-title").innerText = "Holiday";
+                        document.getElementById("event-title").innerText = info.event.title;
                         document.getElementById("event-description").innerHTML = `
-                            <p><strong>Date:</strong> ${localDate}</p>
+                            <p><strong>Start Date:</strong> ${formattedStartDate}</p>
+                            <p><strong>End Date:</strong> ${formattedEndDate}</p>
                             <p><strong>Reason:</strong> ${info.event.title}</p>
                         `;
                     } else {
                         let statusColor = info.event.backgroundColor || "#6c757d";
 
-                        document.getElementById("event-title").innerText = "Reservation Details";
+                        document.getElementById("event-title").innerText = info.event.extendedProps.activity || "No Activity Provided";
                         document.getElementById("event-description").innerHTML = `
                             <p><strong>Venue:</strong> ${info.event.title}</p>
-                            <p><strong>Date:</strong> ${localDate}</p>
+                            <p><strong>Date:</strong> ${formattedStartDate}</p>
                             <p><strong>Check-in:</strong> ${info.event.extendedProps.check_in_time}</p>
                             <p><strong>Check-out:</strong> ${info.event.extendedProps.check_out_time}</p>
                             <p><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor}; color: #fff; padding: 5px 10px;">${info.event.extendedProps.status}</span></p>
@@ -942,8 +1048,8 @@
         // Handle real-time input validation for character limit
         activityInput.addEventListener("input", function () {
             let inputLength = this.value.length;
-            if (inputLength > 32) {
-                this.setCustomValidity("Please enter no more than 16 characters.");
+            if (inputLength > 64) {
+                this.setCustomValidity("Please enter no more than 64 characters.");
             } else {
                 this.setCustomValidity(""); // Clear any previous validation error
             }
@@ -1037,7 +1143,133 @@
     checkFields(); // Run on page load in case form is prefilled
 });
 
+    //member type
+    document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const emailInput = document.querySelector("input[name='email']");
+    const memtypSelect = document.getElementById("memtyp");
+    const checkInTime = document.getElementById("check_in_time");
+    const checkOutTime = document.getElementById("check_out_time");
+    const contactInput = document.getElementById("phone");
 
+    // Create error message elements
+    const emailError = document.createElement("div");
+    emailError.classList.add("invalid-feedback");
+    emailError.style.display = "none";
+    emailInput.parentNode.appendChild(emailError);
+
+    const memtypError = document.createElement("div");
+    memtypError.classList.add("invalid-feedback");
+    memtypError.style.display = "none";
+    memtypSelect.parentNode.appendChild(memtypError);
+
+    const checkOutTimeError = document.createElement("div");
+    checkOutTimeError.classList.add("invalid-feedback");
+    checkOutTimeError.style.display = "none";
+    checkOutTime.parentNode.appendChild(checkOutTimeError);
+
+    const contactError = document.createElement("div");
+    contactError.classList.add("invalid-feedback");
+    contactError.style.display = "none";
+    contactInput.parentNode.appendChild(contactError);
+
+    form.addEventListener("submit", function (event) {
+        let isValid = true;
+
+        // ✅ Email Validation
+        const emailValue = emailInput.value;
+        if (!emailValue.includes("@") || !emailValue.includes(".")) {
+            event.preventDefault();
+            emailInput.classList.add("is-invalid");
+            emailError.textContent = "Please include '@' and '.' in the email address.";
+            emailError.style.display = "block";
+            isValid = false;
+        } else {
+            emailInput.classList.remove("is-invalid");
+            emailError.style.display = "none";
+        }
+
+        // ✅ Member Type Validation
+        if (!memtypSelect.value) {
+            event.preventDefault();
+            memtypSelect.classList.add("is-invalid");
+            memtypError.textContent = "Please select a Member Type.";
+            memtypError.style.display = "block";
+            isValid = false;
+        } else {
+            memtypSelect.classList.remove("is-invalid");
+            memtypError.style.display = "none";
+        }
+
+        // ✅ Contact Number Validation
+        const contactValue = contactInput.value.trim();
+        const phonePattern = /^(09|\+639)\d{9}$/;
+
+        if (!phonePattern.test(contactValue)) {
+            event.preventDefault();
+            contactInput.classList.add("is-invalid");
+            contactError.textContent = "Please enter a valid Philippine phone number (e.g., 09123456789 or +639123456789).";
+            contactError.style.display = "block";
+            isValid = false;
+        } else {
+            contactInput.classList.remove("is-invalid");
+            contactError.style.display = "none";
+        }
+
+        // ✅ Check-Out Time Validation
+        if (checkInTime.value && checkOutTime.value) {
+            const checkInDateTime = new Date(`1970-01-01T${checkInTime.value}`);
+            const checkOutDateTime = new Date(`1970-01-01T${checkOutTime.value}`);
+
+            if (checkOutDateTime <= checkInDateTime) {
+                event.preventDefault();
+                checkOutTime.classList.add("is-invalid");
+                checkOutTimeError.textContent = "The check-out time must be later than the check-in time.";
+                checkOutTimeError.style.display = "block";
+                isValid = false;
+            } else {
+                checkOutTime.classList.remove("is-invalid");
+                checkOutTimeError.style.display = "none";
+            }
+        }
+
+        return isValid;
+    });
+
+    // ✅ Hide error messages when user corrects input
+    emailInput.addEventListener("input", function () {
+        if (emailInput.value.includes("@") && emailInput.value.includes(".")) {
+            emailInput.classList.remove("is-invalid");
+            emailError.style.display = "none";
+        }
+    });
+
+    memtypSelect.addEventListener("change", function () {
+        if (memtypSelect.value) {
+            memtypSelect.classList.remove("is-invalid");
+            memtypError.style.display = "none";
+        }
+    });
+
+    contactInput.addEventListener("input", function () {
+        if (/^(09|\+639)\d{9}$/.test(contactInput.value.trim())) {
+            contactInput.classList.remove("is-invalid");
+            contactError.style.display = "none";
+        }
+    });
+
+    checkOutTime.addEventListener("change", function () {
+        if (checkInTime.value && checkOutTime.value) {
+            const checkInDateTime = new Date(`1970-01-01T${checkInTime.value}`);
+            const checkOutDateTime = new Date(`1970-01-01T${checkOutTime.value}`);
+
+            if (checkOutDateTime > checkInDateTime) {
+                checkOutTime.classList.remove("is-invalid");
+                checkOutTimeError.style.display = "none";
+            }
+        }
+    });
+});
 
 
 
@@ -1331,4 +1563,100 @@ input[type="time"] {
     color: red;
     margin-top: 5px;
 }
+.form-select {
+    background-color: #1e1e1e !important; /* Dark background */
+    color: #fff !important; /* White text */
+    border: 1px solid #555 !important; /* Dark border */
+}
+.main-content {
+    color: white;
+}
+/* Floating Help Button */
+.help-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1050;
+    transition: all 0.3s ease;
+}
+
+.help-button:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
+
+/* Modal Content */
+.modal-content {
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+/* Section Titles */
+.modal-section-title {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* List Spacing */
+.modal-list {
+    padding-left: 25px;
+    margin-bottom: 15px;
+}
+
+.modal-list li {
+    margin-bottom: 10px;
+}
+
+/* Extra Note */
+.modal-note {
+    font-size: 14px;
+    color: #555;
+    margin-top: 15px;
+}
+/* Position modal above the floating button */
+#helpModal .modal-dialog {
+    position: fixed;
+    bottom: 70px; /* Moves it above the button */
+    left: 20px; /* Align with the button */
+    transform: translateY(0);
+    width: 400px; /* Adjust width as needed */
+    max-width: 85%; /* Ensure it fits on smaller screens */
+}
+
+/* Ensure proper positioning on mobile */
+@media (max-width: 768px) {
+    #helpModal .modal-dialog {
+        bottom: 100px; /* Adjust for mobile */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        height: auto; /* Allows dynamic height */
+        max-height: 80vh; /* Limits height to 80% of the viewport */
+        overflow-y: auto;
+    }
+}
+.modal-body ul li {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+.modal-header {
+    font-size: 13px;
+}
+
 </style>

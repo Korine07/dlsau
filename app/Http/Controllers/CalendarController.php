@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Holiday;
+use Carbon\Carbon;
 use App\Models\Reservation;
 
 class CalendarController extends Controller
@@ -13,28 +14,45 @@ class CalendarController extends Controller
         return view("calendar.calendar");
     }
     public function store(Request $request)
-{
-    $request->validate([
-        'date' => 'required|date',
-        'reason' => 'required|string|max:32'
-    ]);
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reason' => 'required|string|max:32'
+        ]);
 
-    $holiday = Holiday::create($request->all());
+        $holiday = Holiday::create($request->all());
 
-    return response()->json([
-        'message' => 'Holiday added successfully!',
-        'holiday' => $holiday  // Make sure this is returned
-    ], 201);
-}
+        return response()->json([
+            'message' => 'Holiday added successfully!',
+            'holiday' => $holiday  // Make sure this is returned
+        ], 201);
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reason' => 'required|string|max:32'
+        ]);
 
+        $holiday = Holiday::findOrFail($id);
+        $holiday->update($request->all());
+
+        return response()->json([
+            'message' => 'Holiday updated successfully!',
+            'holiday' => $holiday
+        ]);
+    }
     public function getEvents()
     {
         // Fetch holidays
-        $holidays = Holiday::select('id', 'date', 'reason')->get()->map(function ($holiday) {
+        $holidays = Holiday::select('id', 'start_date', 'end_date', 'reason')->get()->map(function ($holiday) {
             return [
                 'id' => "holiday-" . $holiday->id,
                 'title' => $holiday->reason,
-                'start' => $holiday->date,
+                'start' => Carbon::parse($holiday->start_date)->format('Y-m-d'), // ✅ Ensure format
+                'end' => Carbon::parse($holiday->end_date)->addDay()->format('Y-m-d'), // ✅ Fix for FullCalendar
                 'backgroundColor' => '#28a745', // ✅ Green background
                 'borderColor' => '#28a745', // ✅ Green border
                 'textColor' => '#ffffff', // ✅ White text
@@ -61,6 +79,7 @@ class CalendarController extends Controller
                     'check_out_time' => date("h:ia", strtotime($reservation->check_out_time)),
                     'first_name' => $reservation->first_name,
                     'last_name' => $reservation->last_name,
+                    'activity' => $reservation->activity_nature,
                     'status' => ucfirst($reservation->status), // Ensure status is properly formatted
                 ]
             ];
